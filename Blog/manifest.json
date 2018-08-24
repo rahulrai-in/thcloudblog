@@ -1,0 +1,7 @@
+{
+  "name": "The Cloud Blog",
+  "short_name": "TheCloudBlog",
+  "start_url": "/",
+  "display": "standalone",
+  "gcm_sender_id": "482941778795"
+}

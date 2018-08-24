@@ -1,0 +1,35 @@
+https://discourse.gohugo.io/t/hugo-netlify-and-gulp-task/10267/3
+
+[Settings]
+ID = "TheCloudBlog"
+
+# Settings in the [build] context are global and are applied to all contexts unless otherwise overridden by more specific contexts.  
+
+[build]
+  # This is the directory to change to before starting a build.
+  base    = "Blog/"
+  # NOTE: This is where we will look for package.json/.nvmrc/etc, not root.
+  # This is the directory that you are publishing from (relative to root of your repo)
+  publish = "Blog/public/"
+  # This will be your default build command
+  command = "hugo --minify"
+  # This is where we will look for your lambda functions
+  functions = "project/functions/"
+
+[context.production.environment]
+  HUGO_VERSION = "0.47.1"
+  HUGO_ENV = "production"
+  HUGO_ENABLEGITINFO = "true"
+
+# Production context: All deploys from the Production branch set in your site's deploy settings will inherit these settings.
+[context.production]
+  publish = "output/"
+  command = "make publish"
+  environment = { ACCESS_TOKEN = "super secret", NODE_ENV = "8.0.1" }
+
+[[headers]]
+  for = "/*" # This defines which paths this specific [[headers]] block will cover.
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    Content-Security-Policy = "frame-ancestors https://www.facebook.com"

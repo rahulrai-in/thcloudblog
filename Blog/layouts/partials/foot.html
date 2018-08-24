@@ -1,0 +1,38 @@
+<div id="back-to-top" class="hidden" style="z-index: 100;">
+    <a href="#top" style="display: inline;" onclick="$('html,body').animate({ scrollTop: 0 }, 'slow');return false;">
+        <i class="fa fa-arrow-up fa-3x" aria-hidden="true"></i>
+    </a>
+</div>
+<script defer>
+    if (hljs) { hljs.initHighlightingOnLoad(); }
+</script>
+<script>
+    // Back to Top
+    if (($(window).height() + 100) < $(document).height()) { $('#back-to-top').removeClass('hidden').affix({ offset: { top: 100 } }); }
+
+    // Trianglify
+    var options = {
+        width: document.body.getBoundingClientRect().width,
+        height: document.body.getBoundingClientRect().height,
+        x_colors: 'RdYlBu',
+        cell_size: 100,
+        variance: 1
+    };
+
+    function makeBackground(pattern) {
+        document.body.style["background-image"] = "url(" + pattern.png() + ")";
+        document.body.style["background-repeat"] = "no-repeat";
+        document.body.style["background-size"] = "cover";
+    }
+
+    makeBackground(Trianglify(options));
+
+    $(window).resize(function () {
+        clearTimeout(this.id);
+        this.id = setTimeout(doneResizing, 200);
+    });
+    function doneResizing() {
+        var pattern = Trianglify(options);
+        makeBackground(pattern);
+    }
+</script>

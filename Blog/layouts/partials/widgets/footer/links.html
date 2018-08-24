@@ -1,0 +1,11 @@
+<div class="col-md-2 col-xs-2">
+    <ul class="list-inline links">
+        {{ range .Site.Menus.footer }}
+        <li>
+            <a href="{{ .URL }}">
+                {{ .Name }}
+            </a>
+        </li>
+        {{ end }}
+    </ul>
+</div>
