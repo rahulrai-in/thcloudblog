@@ -3,7 +3,7 @@
   <ShortName>TheCloudBlog</ShortName>
   <Description>The Cloud Blog By Rahul Rai</Description>
   <InputEncoding>UTF-8</InputEncoding>
-  <Image width="16" height="16" type="image/x-icon">https://rahulrai.azureedge.net/resources/siteIcon.png</Image>
-  <Url type="text/html" method="GET" template="https://rahulrai.in/search/?q={searchTerms}" />
-  <SearchForm>https://rahulrai.in/</SearchForm>
+  <Image width="16" height="16" type="image/x-icon">//resources/siteIcon.png</Image>
+  <Url type="text/html" method="GET" template="https://thecloudblog.net/search/?q={searchTerms}" />
+  <SearchForm>https://thecloudblog.net/</SearchForm>
 </OpenSearchDescription>
