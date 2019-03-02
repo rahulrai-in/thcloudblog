@@ -19,31 +19,30 @@ paginate = 15
 
 [author]
     name = "Rahul Rai"
-    email = "rahulrai@rahulrai.in"
+    email = "rahul@rahul-rai.com"
 
 #Theme Variables
 [params]
     keywords = ["Azure", "Cloud"]
     description = "The Cloud Blog"
 	heapanalytics = "2215857163"
-	appinsights = "963f772c-0ccc-4148-8dd0-d592c04d6d7b"
     disqus = "rahulrai"
     google_webmaster = "QCQmaQxL8c2x6yrpUDr91jfBZNSpexndMkeOqZPFlqM"
     bing_webmaster = "F6575BFCC1322FDFE66EA304BDB69F33"
 	googlesearchid = "017749396232577371525:uclf-xfot8k"
-    favicon = "https://cdn.rahulrai.in/resources/siteIcon.png"
-    resourcesbaseurl = "https://cdn.rahulrai.in/resources"
-    contentbaseurl = "https://cdn.rahulrai.in/media"
+    favicon = "/resources/siteIcon.png"
+    resourcesbaseurl = "/resources"
+    contentbaseurl = "/media"
 	
 # Social media icons and links that appear in the footer
 [social]
     twitter = "https://twitter.com/rahulrai_in"
-    linkedin = "https://in.linkedin.com/in/rahulrahul"
-    email = "mailto:rahulrai@rahulrai.in"
+    linkedin = "https://linkedin.com/in/rahulrai-in"
+    email = "mailto:rahul@rahul-rai.com"
     facebook = "https://www.facebook.com/moonytheloony"
     msdn = "https://social.msdn.microsoft.com/profile/rahul.rai/"
     github = "https://github.com/rahulrai-in"
-    skype = "rahul.rai1986?call"
+    skype = "rahulrai@live.com?call"
 
 [permalinks]
     post = "/post/:slug"
