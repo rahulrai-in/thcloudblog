@@ -53,28 +53,23 @@ paginate = 15
     category = "categories"
 
 [[menu.header]]
-    name = "blog"
-    weight = 1
-    url = "/"
-
-[[menu.header]]
     name = "archive"
-    weight = 2
+    weight = 1
     url = "/archive/"
 
 [[menu.header]]
     name = "profile"
-    weight = 3
+    weight = 2
     url = "/profile/"
 
 [[menu.header]]
-    name = "publications"
-    weight = 4
+    name = "books"
+    weight = 3
     url = "/publications/"
 
 [[menu.header]]
     name = "rss"
-    weight = 5
+    weight = 4
     url = "/post/index.xml"
 
 [[menu.footer]]
