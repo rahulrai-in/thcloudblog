@@ -1,11 +1,11 @@
-# [![Github](https://github.frapsoft.com/social/github.png)](https://github.com/rahulrai-in/) Blog-Web 
+# [![Github](https://github.frapsoft.com/social/github.png)](https://github.com/rahulrai-in/) The Cloud Blog 
 **By Rahul Rai**
 
 Source code for my blog hosted on Azure and built on Hugo. If you want to contribute or discuss anything else, then chat with me on Gitter.
 
-Don't forget to subscribe to **[The Cloud Blog](https://rahulrai.in)**.
+Don't forget to subscribe to **[The Cloud Blog](https://thecloudblog.net)**.
 ## Code Health & Metrices
-[![Build Status](https://travis-ci.org/rahulrai-in/Blog-Web.svg?branch=master)](https://travis-ci.org/rahulrai-in/Blog-Web)
+[![Build status](https://dev.azure.com/thecloudblog/thecloudblog/_apis/build/status/The%20Cloud%20Blog%20-%20Daily)](https://dev.azure.com/thecloudblog/thecloudblog/_build/latest?definitionId=3)
 
 ## Submitting a Testimonial
 To submit a testimonial, follow the following steps.
