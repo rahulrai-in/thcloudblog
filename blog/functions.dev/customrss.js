@@ -19,7 +19,9 @@ export function handler(event, context, callback) {
         email: parsedFeed.email
       }
     });
+
     parsedFeed.items.shift();
+
     parsedFeed.items
       .filter((value, index) => index < 5)
       .forEach(item => {
@@ -32,6 +34,7 @@ export function handler(event, context, callback) {
           guid: item.guid
         });
       });
+
     callback(null, { statusCode: 200, body: feed.atom1() });
   })();
 }
