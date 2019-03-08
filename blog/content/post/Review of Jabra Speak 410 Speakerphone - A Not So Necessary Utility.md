@@ -6,7 +6,7 @@ draft = false
 tags = ["azure", "dhl", "duty", "jabra", "phone"]
 title = "Review of Jabra Speak 410 Speakerphone - A Not So Necessary Utility"
 type = "post"
-slug = "review-of-jabra-speak-410-speakerphone---a-not-so-necessary-utility"
+slug = "review-of-jabra-speak-410-speakerphone-a-not-so-necessary-utility"
 +++
 
 I was lucky (and fast... and skilled...) enough to claim a [Jabra Speak 410 Speakerphone](http://www.jabra.in/support/jabra-speak-410_7410-209) as my [AzureCon challenge](https://challenge.azurecon.com/) bounty. There were some challenges related to shipping and all the prizes got dispatched pretty late, but Microsoft resolved the impediments and was very communicative throughout the shipping process and my unit arrived today so no rants from me on this. My only concern is that I had to pay a USD 40 duty on the import about which I am not sure whether I was liable to or whether it could have been avoided. Anyways..
@@ -23,19 +23,19 @@ There is no installation necessary to make it work, just plug the USB cable in y
 
 ## Unboxing
 
-*   My DHL packet containing my device. The duty receipt came along!
+- My DHL packet containing my device. The duty receipt came along!
 
 {{< img src="/Jabra with Duty Receipt.png" alt="Jabra with Duty Receipt" >}}
 
-*   Inside the outer carton!
+- Inside the outer carton!
 
 {{< img src="/Jabra Outer Packet.png" alt="Jabra Outer Packet" >}}
 
-*   The paperwork!
+- The paperwork!
 
 {{< img src="/Jabra Inside the Box.png" alt="Jabra Inside the Box" >}}
 
-*   The Goodness!!
+- The Goodness!!
 
 {{< img src="/Jabra Speak 410.png" alt="Jabra Speak 410" >}}
 

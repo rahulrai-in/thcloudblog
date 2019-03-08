@@ -6,10 +6,10 @@ draft = false
 tags = ["resource manager", "debt", "blog", "github"]
 title = "Create IoT Hub with Messaging Configurations with Azure Quick Start Templates & How to Repay Knowledge Debt"
 type = "post"
-slug="create-iot-hub-with-messaging-configurations-with-azure-quick-start-templates---how-to-repay-knowledge-debt"
+slug="create-iot-hub-with-messaging-configurations-with-azure-quick-start-templates-how-to-repay-knowledge-debt"
 +++
 
-Okay, this is a bit of self promotion but my ARM template to provision IoT Hub has been merged with the official Azure documentation branch recently. What this means is that now you can visit [this link](https://azure.microsoft.com/en-in/documentation/templates/101-iothub-with-consumergroup-create/ "Click Me.."), click on **Deploy to Azure** button, supply some parameter values and have an IoT Hub provisioned in your subscription. If you want to view the script that is responsible for provisioning the infrastructure, you can view the script in the Azure Quick Start GitHub repository [here](https://github.com/Azure/azure-quickstart-templates/tree/master/101-iothub-with-consumergroup-create "Click Me.."). You can read more about how and why you should use Azure Resource Manager (ARM) for defining and deploying your resources [here](https://azure.microsoft.com/en-in/documentation/articles/resource-group-overview/ "Click Me..").
+Okay, this is a bit of self promotion but my ARM template to provision IoT Hub has been merged with the official Azure documentation branch recently. What this means is that now you can visit [this link](https://azure.microsoft.com/en-in/documentation/templates/101-iothub-with-consumergroup-create/ 'Click Me..'), click on **Deploy to Azure** button, supply some parameter values and have an IoT Hub provisioned in your subscription. If you want to view the script that is responsible for provisioning the infrastructure, you can view the script in the Azure Quick Start GitHub repository [here](https://github.com/Azure/azure-quickstart-templates/tree/master/101-iothub-with-consumergroup-create 'Click Me..'). You can read more about how and why you should use Azure Resource Manager (ARM) for defining and deploying your resources [here](https://azure.microsoft.com/en-in/documentation/articles/resource-group-overview/ 'Click Me..').
 
 ## What I Need From You
 
@@ -21,7 +21,7 @@ I often have to do stuff that you might have done earlier. Maybe a script that y
 
 ## But I Don't Have Time\It Looks Intimidating\I Don't Know Enough...
 
-Any time I ask people to contribute and they say anything other than yes, I replace whatever they say with the word excuse. I have heard so many excuses till now that I don't even bother listening to what they say. For a thousand people who only read, tens of people write. Writing helps you establish your own brand and helps establish your own identity in this huge world of internet. I hope to encourage you enough to start writing something. You don't have to write articles and books right from the beginning. Start by answering questions on forums. Paste code snippets in [GitHub Gist](https://gist.github.com/ "Click Me..") and let the internet know. Talk about the gadgets you own or what you did in your day that others can do to make their day more productive.
+Any time I ask people to contribute and they say anything other than yes, I replace whatever they say with the word excuse. I have heard so many excuses till now that I don't even bother listening to what they say. For a thousand people who only read, tens of people write. Writing helps you establish your own brand and helps establish your own identity in this huge world of internet. I hope to encourage you enough to start writing something. You don't have to write articles and books right from the beginning. Start by answering questions on forums. Paste code snippets in [GitHub Gist](https://gist.github.com/ 'Click Me..') and let the internet know. Talk about the gadgets you own or what you did in your day that others can do to make their day more productive.
 
 ## I Would Join You
 

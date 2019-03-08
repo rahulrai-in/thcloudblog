@@ -6,7 +6,7 @@ draft = false
 tags = ["first", "github", "worker", "internet of things", "grain", "silo", "actor", "distributed system", "cluster", "device", "pluralsight"]
 title = "Building IoT Solutions with Microsoft Orleans and Microsoft Azure - Part 1"
 type = "post"
-slug = "building-iot-solutions-with-microsoft-orleans-and-microsoft-azure---part-1"
+slug = "building-iot-solutions-with-microsoft-orleans-and-microsoft-azure-part-1"
 +++
 
 In this **two-part series** I will walk you through building an IOT solution on [Microsoft Azure](https://azure.microsoft.com/) using [Microsoft Orleans](https://dotnet.github.io/orleans/). The first part is an overview of Microsoft Orleans while the second part will cover building a simple application on [Microsoft Orleans](https://dotnet.github.io/orleans/) and deploying it to [Microsoft Azure](https://azure.microsoft.com/).
@@ -47,30 +47,30 @@ Each of these projects gets built into a different DLL: the interface needs to b
 
 Grains can store state information beyond their lifetime. This feature is helpful for restoring state information when a Grain is reactivated. How a Grain stores state data is governed by how it is declared. Grain types can be declared in one of the two ways:
 
-*   Extend `Grain` if they do not have any persistent state, or if they will handle all persistent state themselves, or
-*   Extend `Grain<T>` if they have some persistent state that they want the Orleans runtime to handle. Stated another way, by extending `Grain<T>` a Grain type is automatically opted-in to the Orleans system managed persistence framework.
+- Extend `Grain` if they do not have any persistent state, or if they will handle all persistent state themselves, or
+- Extend `Grain<T>` if they have some persistent state that they want the Orleans runtime to handle. Stated another way, by extending `Grain<T>` a Grain type is automatically opted-in to the Orleans system managed persistence framework.
 
 Grain classes that inherit from `Grain<T>` (where `T` is an application-specific state data type derived from `IGrainState`) will have their state loaded automatically from a specified storage. Grains will be marked with a `[StorageProvider]` attribute that specifies a named instance of a storage provider to use for reading/writing the state data for this Grain.
 
-~~~CS 
+```CS
 [StorageProvider(ProviderName="store1")]
 public class MyGrain<IMyGrainState> ...
 {
   ...
 }
-~~~
+```
 
 The Grain’s state is available through the `Grain<T>.State` property. After making any appropriate changes to the Grain’s in-memory state, the Grain should call the `Grain<T>.State.WriteStateAsync()` method to write the changes to the persistent store. The Orleans Provider Manager framework provides a mechanism to specify & register different storage providers and storage options in the Silo config file.
 
-~~~XML 
+```XML
 <StorageProviders>
    <Provider Type="Orleans.Storage.DevStorage" Name="DevStore" />
-   <Provider Type="Orleans.Storage.AzureTableStorage" Name="store1"    
+   <Provider Type="Orleans.Storage.AzureTableStorage" Name="store1"
       DataConnectionString="DefaultEndpointsProtocol=https;AccountName=data1;AccountKey=SOMETHING1" />
-   <Provider Type="Orleans.Storage.AzureTableStorage" Name="store2" 
+   <Provider Type="Orleans.Storage.AzureTableStorage" Name="store2"
      DataConnectionString="DefaultEndpointsProtocol=https;AccountName=data2;AccountKey=SOMETHING2"  />
 </StorageProviders>
-~~~
+```
 
 ## Other Concepts
 
@@ -84,9 +84,9 @@ In the second part of this series, we will build a small sample in which we will
 
 ## Credits
 
-*   [Orleans GitHub Site](https://dotnet.github.io/orleans/)
+- [Orleans GitHub Site](https://dotnet.github.io/orleans/)
 
-*   [Pluralsight](http://www.pluralsight.com/courses/microsoft-orleans-introduction)
+- [Pluralsight](http://www.pluralsight.com/courses/microsoft-orleans-introduction)
 
-{{% notice %}} The second part of this series is available [here](/post/building-iot-solutions-with-microsoft-orleans-and-microsoft-azure---part-2){{% /notice %}}
+{{% notice %}} The second part of this series is available [here](/post/building-iot-solutions-with-microsoft-orleans-and-microsoft-azure-part-2){{% /notice %}}
 {{< subscribe >}}

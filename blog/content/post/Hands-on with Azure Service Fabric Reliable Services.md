@@ -38,8 +38,8 @@ The code for the application is available on my GitHub repository. {{< sourceCod
 
 As the first step, use [this link](https://azure.microsoft.com/en-in/documentation/articles/service-fabric-get-started/) to install Azure Service Fabric SDK, runtime, and tools. You would need to configure PowerShell to enable Service Fabric to execute scripts on your system for various tasks such as setup of the local cluster, deployment of your application on the cluster etc.. Before we get started with building the application itself, we would need access to Twitter APIs and Azure Text Analytics Service.
 
-*   Use [this link](https://www.dougv.com/2015/08/posting-status-updates-to-twitter-via-linqtotwitter-walkthrough-tutorial-part-1/) to create a new Twitter Application and get necessary account secrets for accessing the Twitter REST APIs.
-*   Use [this link](https://azure.microsoft.com/en-us/documentation/articles/cognitive-services-text-analytics-quick-start/) to get keys for the Azure Text Analytics Service. [Here](https://text-analytics-demo.azurewebsites.net/) is a console which you can use to play with the Text Analytics Service.
+- Use [this link](https://www.dougv.com/2015/08/posting-status-updates-to-twitter-via-linqtotwitter-walkthrough-tutorial-part-1/) to create a new Twitter Application and get necessary account secrets for accessing the Twitter REST APIs.
+- Use [this link](https://azure.microsoft.com/en-us/documentation/articles/cognitive-services-text-analytics-quick-start/) to get keys for the Azure Text Analytics Service. [Here](https://text-analytics-demo.azurewebsites.net/) is a console which you can use to play with the Text Analytics Service.
 
 After the setup is complete, using Visual Studio, create a new solution and add a new Service Fabric Application named `TweetAnalytics.TweetApp` to it.
 
@@ -49,14 +49,15 @@ Next, add a Stateless Reliable ASP.net core web application to your Service Fabr
 
 {{< img src="/Create ASPNET Reliable Service.png" alt="Create ASP.net Core Reliable Service" >}}
 
-This application would act as the front end for your Service Fabric application. To add the back-end service to your application, right-click on the *Services* folder in your `TweetAnalytics.TweetApp` project and select **Add > New Service Fabric Service**. This action will render a template dialog similar to the previous one. Select Stateful Reliable Service template from the dialog and name it `TweetAnalytics.TweetService`. 
+This application would act as the front end for your Service Fabric application. To add the back-end service to your application, right-click on the _Services_ folder in your `TweetAnalytics.TweetApp` project and select **Add > New Service Fabric Service**. This action will render a template dialog similar to the previous one. Select Stateful Reliable Service template from the dialog and name it `TweetAnalytics.TweetService`.
 
-Once the two Reliable Service projects are in place, we need to add one more project to the solution to write common code for the `TweetAnalytics.Web` and `TweetAnalytics.TweetService` projects. Add a class library named `TweetAnalytics.Contracts` to the solution and add an interface named `ITweet` that represents the operations implemented by the stateful service. 
+Once the two Reliable Service projects are in place, we need to add one more project to the solution to write common code for the `TweetAnalytics.Web` and `TweetAnalytics.TweetService` projects. Add a class library named `TweetAnalytics.Contracts` to the solution and add an interface named `ITweet` that represents the operations implemented by the stateful service.
 
 > #### Note
-It is a good practice to expose service operations through interfaces. This way, if you want to enable communication through contract based protocols such as WCF and RPC, then you only need to modify the interface. For example, we can have this interface extend the `IService` interface for the runtime to provide remoting infrastructure to the service contract.
+>
+> It is a good practice to expose service operations through interfaces. This way, if you want to enable communication through contract based protocols such as WCF and RPC, then you only need to modify the interface. For example, we can have this interface extend the `IService` interface for the runtime to provide remoting infrastructure to the service contract.
 
-~~~CS
+```CS
 namespace TweetAnalytics.Contracts
 {
     using System.Threading.Tasks;
@@ -67,11 +68,11 @@ namespace TweetAnalytics.Contracts
 		Task SetTweetSubject(string subject);
     }
 }
-~~~
+```
 
 Set the target platform of the class library to **x64** as it is the only platform supported by Service Fabric currently. Add `TweetAnalytics.Contracts` as a dependency into `TweetAnalytics.Web` and `TweetAnalytics.TweetService` projects. Implement the interface `ITweet` in `TweetService` class. The following implementation of `SetTweetSubject` in `TweetService` class will clear contents of `scoreDictionary`, which is a `ReliableDictionary` (won't lose data in case of failures) that contains tweet message and sentiment score as a string and decimal pair, and add the search term as a message to the `topicQueue` which is a `ReliableQueue`.
 
-~~~CS
+```CS
 public async Task SetTweetSubject(string subject)
 {
 	if (this.cancellationToken.IsCancellationRequested)
@@ -97,11 +98,11 @@ public async Task SetTweetSubject(string subject)
 		await tx.CommitAsync();
 	}
 }
-~~~
+```
 
 The implementation of `GetAverageSentimentScore` fetches the average sentiment score from the `scoreDictionary`. Note that, read operations happen on a [snapshot of the collection](https://azure.microsoft.com/en-in/documentation/articles/service-fabric-reliable-services-reliable-collections/#isolation-levels),therefore, it will ignore any updates that happen while you are iterating through the collection.
 
-~~~CS
+```CS
 public async Task<TweetScore> GetAverageSentimentScore()
 {
     if (this.cancellationToken.IsCancellationRequested)
@@ -121,16 +122,16 @@ public async Task<TweetScore> GetAverageSentimentScore()
 
     return tweetScore;
 }
-~~~
+```
 
 The `TweetService` class overrides the `RunAsync` method of the `StatefulService` class which it inherits from. In the `RunAsync` method, you can write code to implement a processing loop which executes only in the primary replica instance of the service. In the `RunAsync` method we will spin up two methods:
 
-*   `CreateTweetMessages`: This method continuously fetches tweets from the Twitter REST API (consumed through [LinqToTwitter](https://linqtotwitter.codeplex.com/) package) by dequeuing a message from the `topicQueue` and sending the message content as search term to the Twitter Search API. The tweets returned as a result from the Twitter API are queued in the `tweetQueue`.
-*   `ConsumeTweetMessages`: This method continuously fetches messages from the `tweetQueue` and uses the Azure Text Analysis Service to get the tweet sentiment score. The tweet along with the score is then stored in the the `scoreDictionary`.
+- `CreateTweetMessages`: This method continuously fetches tweets from the Twitter REST API (consumed through [LinqToTwitter](https://linqtotwitter.codeplex.com/) package) by dequeuing a message from the `topicQueue` and sending the message content as search term to the Twitter Search API. The tweets returned as a result from the Twitter API are queued in the `tweetQueue`.
+- `ConsumeTweetMessages`: This method continuously fetches messages from the `tweetQueue` and uses the Azure Text Analysis Service to get the tweet sentiment score. The tweet along with the score is then stored in the the `scoreDictionary`.
 
 Following is the implementation for the `CreateTweetMessages` method.
 
-~~~CS
+```CS
 private void CreateTweetMessages()
 {
     while (!this.cancellationToken.IsCancellationRequested)
@@ -155,11 +156,11 @@ private void CreateTweetMessages()
         Thread.Sleep(TimeSpan.FromSeconds(10));
     }
 }
-~~~
+```
 
 Following is the code listing for the `ConsumeTweetMessages` method.
 
-~~~CS
+```CS
 private void ConsumeTweetMessages()
 {
     var tweetQueue = this.StateManager.GetOrAddAsync<IReliableQueue<string>>("tweetQueue").Result;
@@ -182,11 +183,11 @@ private void ConsumeTweetMessages()
         Thread.Sleep(TimeSpan.FromSeconds(1));
     }
 }
-~~~
+```
 
 The `RunAsync` method spawns the above two methods.
 
-~~~CS
+```CS
 protected override async Task RunAsync(CancellationToken token)
 {
     this.cancellationToken = token;
@@ -194,17 +195,17 @@ protected override async Task RunAsync(CancellationToken token)
     Task.Factory.StartNew(this.ConsumeTweetMessages, this.cancellationToken);
     this.cancellationToken.WaitHandle.WaitOne();
 }
-~~~
+```
 
-To enable the HTTP communication channel between the front-end and the service, we need to override the `CreateServiceReplicaListeners` method to return and HTTP listener to the Service Fabric runtime. The code that creates the HTTP listener can be found in the code associated with the article. 
+To enable the HTTP communication channel between the front-end and the service, we need to override the `CreateServiceReplicaListeners` method to return and HTTP listener to the Service Fabric runtime. The code that creates the HTTP listener can be found in the code associated with the article.
 
-~~~CS
+```CS
 protected override IEnumerable<ServiceReplicaListener> CreateServiceReplicaListeners()
 {
     return new[] { new ServiceReplicaListener(this.CreateInternalListener) };
 }
-~~~
- 
+```
+
 That's all the work we need to do in the `TweetAnalytics.TweetService` service. Next, in the `TweetAnalytics.Web` application we will add two simple actions that can interact with our Stateful Reliable Service to set the search term and get the average sentiment score. It is a good time now to talk about the partitioning strategies for the `TweetAnalytics.TweetService` application and the `TweetAnalytics.Web` application.
 
 ## Note on Partitions
@@ -213,15 +214,15 @@ A great blog post discussing the available partitioning schemes is available [he
 
 ## Building The Web Application
 
-To talk to the service, the web application would need to resolve the endpoint of the service by passing in the partition id and service name to the `ServicePartitionResolver` which simply queries the Service Fabric *Naming Service* to retrieve the IP address of the `TweetService` instance. The web application will then send an HTTP request to the resolved address of the primary replica of the service. Following is how we can use the Fabric Runtime Context to build the name of the `TweetService`service.
+To talk to the service, the web application would need to resolve the endpoint of the service by passing in the partition id and service name to the `ServicePartitionResolver` which simply queries the Service Fabric _Naming Service_ to retrieve the IP address of the `TweetService` instance. The web application will then send an HTTP request to the resolved address of the primary replica of the service. Following is how we can use the Fabric Runtime Context to build the name of the `TweetService`service.
 
-~~~CS
+```CS
 private Uri tweetServiceInstance = new Uri(FabricRuntime.GetActivationContext().ApplicationName + "/TweetService");
-~~~
+```
 
-The controller methods simply query the *Naming Service* and sending requests to the primary replica of the service. Let's take a look at the `SetSubject` action which sends the search term argument to `TweetService`.
+The controller methods simply query the _Naming Service_ and sending requests to the primary replica of the service. Let's take a look at the `SetSubject` action which sends the search term argument to `TweetService`.
 
-~~~CS
+```CS
 public IActionResult SetSubject(string subject)
 {
 	var tokenSource = new CancellationTokenSource();
@@ -244,7 +245,7 @@ public IActionResult SetSubject(string subject)
 	this.ViewBag.SearchTerm = result;
 	return this.View();
 }
-~~~
+```
 
 ## Storing Configuration Data
 
@@ -280,7 +281,7 @@ Seems like there are negative sentiments associated with my name!! I can live wi
 
 You can use [Service Fabric Party Clusters](http://tryazureservicefabric.eastus.cloudapp.azure.com/) to test your sample and see it in action on Azure. To deploy this sample to Azure, you would only need to change the port of your web application in the configuration located at **TweetAnalytics.Web > PackageRoot > ServiceManifest.xml** to a value that is assigned to you in the cluster invite.
 
-With this application, I have barely scratched the surface of Service Fabric. There are tons of great features such as monitoring, upgrades and event tracing which I haven't covered. Other important tenets of Service Fabric you should explore are [Reliable Actors Applications](https://azure.microsoft.com/en-in/documentation/articles/service-fabric-reliable-actors-introduction/) and [Guest Executable Applications](https://azure.microsoft.com/en-in/documentation/articles/service-fabric-deploy-existing-app/). We have already covered Microsoft Orleans framework in an [earlier post](/post/building-iot-solutions-with-microsoft-orleans-and-microsoft-azure---part-1) which is very similar to the Service Fabric Reliable Actors Service. I encourage you to read that.
+With this application, I have barely scratched the surface of Service Fabric. There are tons of great features such as monitoring, upgrades and event tracing which I haven't covered. Other important tenets of Service Fabric you should explore are [Reliable Actors Applications](https://azure.microsoft.com/en-in/documentation/articles/service-fabric-reliable-actors-introduction/) and [Guest Executable Applications](https://azure.microsoft.com/en-in/documentation/articles/service-fabric-deploy-existing-app/). We have already covered Microsoft Orleans framework in an [earlier post](/post/building-iot-solutions-with-microsoft-orleans-and-microsoft-azure-part-1) which is very similar to the Service Fabric Reliable Actors Service. I encourage you to read that.
 
 I hope you found the post informative and interesting. Please do share the post and send in your suggestions. Thank you!
 
