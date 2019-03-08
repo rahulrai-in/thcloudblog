@@ -14,7 +14,8 @@
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start:lambda": "netlify-lambda serve functions.dev"
+    "start:lambda": "netlify-lambda serve functions.dev",
+    "build:lambda": "netlify-lambda build functions.dev"
   },
   "author": "rahul rai",
   "license": "ISC"
