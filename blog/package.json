@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "npm packages for building blog site",
   "dependencies": {
+    "axios": "^0.18.0",
     "event-stream": "^4.0.1",
-    "feed": "^2.0.4",
     "gulp": "^4.0.0",
     "gulp-cssmin": "^0.2.0",
     "gulp-htmlmin": "^5.0.1",
