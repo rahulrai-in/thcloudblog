@@ -1,11 +1,11 @@
 function validateKey() {
   var inputValue = document.getElementById('passkey').value;
   var theFrame = document.getElementById('my_iframe');
-  if (inputValue.length === 5) {
+  if (inputValue.length === 3) {
     var completeUrl =
-      'https://onedrive.live.com/embed?cid=DFF1B4D9CD55ADCA&resid=DFF1B4D9CD55ADCA%2126211&authkey=' +
+      'https://onedrive.live.com/embed?cid=DFF1B4D9CD55ADCA&resid=DFF1B4D9CD55ADCA%21240485&authkey=AJZ4QPH68Rq' +
       inputValue +
-      'vRhKe6BOaU&em=2';
+      'A&em=2';
     theFrame.src = completeUrl;
     theFrame.style.display = 'block';
   } else {
