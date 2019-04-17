@@ -23,7 +23,7 @@ The code for this sample application is available on my GitHub repository. {{< s
 
 Let's start the process of deploying the resources. For anything other than prototyping, using the classic resource deployment model (or worse deploying each resource manually through the portal) is not optimal (read Microsoft's [recommendation](https://azure.microsoft.com/en-in/documentation/articles/resource-manager-deployment-model/)). You should use the Azure Resource Manager deployment model with PowerShell. We will use the new [Azure Resource Manager experience in Visual Studio](https://azure.microsoft.com/en-in/documentation/articles/vs-azure-tools-resource-groups-deployment-projects-create-deploy/) to define and deploy our resources. You will love the way you can choose your resources and configure the resources from a GUI. Start by adding a new **Azure Resource Group** project in the solution. Name the project **ResourceDeployment** and click **Ok**. When the project template unfolds, you would find two templates present in the project. The **azuredeploy.json** template contains the definition of resources that need to be deployed. The **azuredeploy.parameters.json** file contains the parameter values for the parameters of **azuredeploy.json** template. Since most of the resources that we need are not yet present in the template wizard, you would need to write the resource definitions yourself in the **azuredeploy.json** template. Replace the code in **azuredeploy.json** with the following code.
 
-~~~JavaScript 
+```JavaScript
 {
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
@@ -148,7 +148,7 @@ Let's start the process of deploying the resources. For anything other than prot
   "outputs": {
   }
 }
-~~~
+```
 
 This template definition will create an IoT Hub with three consumer groups, a Data Lake Store and a Service Bus Queue with three access policies. The names of these resources are taken from the parameters of the template. You would need to define these parameters in the **azuredeploy.parameters.json** file. To deploy these resources, right click on the **ResourceDeployment** project and click on **Deploy**. Follow the steps mentioned in the deployment wizard to deploy your resources. Once the provisioning is complete, we will deploy the rest of the resources.
 
@@ -198,7 +198,7 @@ In the next step, select the same serialization settings as those of other resou
 
 Now, we need to connect the input to the outputs that we configured through a query. In the portal, navigate to your Stream Analytics Job and click on **Query**. Paste the following two queries in the query console and click **Save**.
 
-~~~SQL
+```SQL
 SELECT
     DeviceId, COUNT(*) AS ReadingCount, Avg(WindSpeed) AS AverageWindSpeed, System.TimeStamp AS OutTime
 INTO
@@ -215,8 +215,8 @@ SELECT
 INTO
     [mydatalakeoutput]
 FROM
-    [myiothubinput] 
-~~~
+    [myiothubinput]
+```
 
 The first query will try to find a two-minute window during which the average wind speed was more than 12\. It will then send the result of the query to the output which, in turn, will create a message object and place the object in the Service Bus Queue. The second query is a pass-through query which selects all data and moves it to the Data Lake Store. The infrastructure is now ready for prime time. Enable the job so that it starts analyzing the data stream.
 
@@ -224,13 +224,13 @@ The first query will try to find a two-minute window during which the average wi
 
 At this point, we need to build a simulator that sends messages to the IoT Hub. However, we don't need to build one entirely from scratch. Here is a [link](https://azure.microsoft.com/en-in/documentation/articles/iot-hub-csharp-csharp-getstarted/) that you can use to create a simulator. You can also find the exact same simulator documented in the article available in the [code](https://github.com/rahulrai-in/iotanalyticsarchitecture) that I wrote for this sample. The following three applications are available in the sample solution:
 
-*   **CreateDeviceIdentity**, which creates a device identity and associated security key to connect your simulated device.
-*   **ReadDeviceToCloudMessages**, which displays the telemetry sent by your simulated device.
-*   **SimulatedDevice**, which connects to your IoT hub with the device identity created earlier, and sends a telemetry message every second using the AMQPS protocol.
+- **CreateDeviceIdentity**, which creates a device identity and associated security key to connect your simulated device.
+- **ReadDeviceToCloudMessages**, which displays the telemetry sent by your simulated device.
+- **SimulatedDevice**, which connects to your IoT hub with the device identity created earlier, and sends a telemetry message every second using the AMQPS protocol.
 
 Let's test this solution we have built till now by performing the following activities.
 
-*   Create an identity of the simulated device in the IoT Hub instance.
+- Create an identity of the simulated device in the IoT Hub instance.
 
 In the **CreateDeviceIdentity** project's configuration file, set the connection string of the IoT Hub instance that we provisioned earlier. You can find the connection string by navigating to your IoT Hub instance and clicking on **Settings**. You can choose any policy with **Registry Write** permission and copy its connection string.
 
@@ -240,7 +240,7 @@ Now, run the **CreateDeviceIdentity** project and copy the unique device key tha
 
 {{< img src="/Generated Device Key.png" alt="Generated Device Key" >}}
 
-*   Start the Simulator application and the Listener application
+- Start the Simulator application and the Listener application
 
 Start the simulator and listener applications after applying the necessary settings in the configuration files of the projects.
 
@@ -279,11 +279,11 @@ Select **SB Queue Trigger for C#** from the templates and give the function a na
 
 Now, let's add a little code that gets triggered every time we get a message in our Service Bus Queue. Since we are going to accept `BrokeredMessage` as input to our function, you would need to add a reference to `WindowsAzure.ServiceBus` assembly in the function. Use the steps described in [this blog post](http://blog.eldert.net/iot-integration-of-things-processing-service-bus-queue-using-azure-functions/) to add the reference to your function.
 
-For the sake of brevity, we will send a POST request to a [RequestBin](http://requestb.in/) endpoint every time this function gets invoked. In a practical scenario, you may want to send an email or a notification to the users from within this function. To get your unique endpoint on RequestBin, simply click on **Create a RequestBin** button on the home page and note the endpoint mentioned on the following page.
+For the sake of brevity, we will send a POST request to a [RequestBin](http://requestbin.com/) endpoint every time this function gets invoked. In a practical scenario, you may want to send an email or a notification to the users from within this function. To get your unique endpoint on RequestBin, simply click on **Create a RequestBin** button on the home page and note the endpoint mentioned on the following page.
 
 Next, add the following lines of code to your function.
 
-~~~CS 
+```CS
 #r "Newtonsoft.Json"
 using System;
 using System.Threading.Tasks;
@@ -303,12 +303,12 @@ public static void Run(BrokeredMessage myQueueItem, TraceWriter log)
     {
         var values = new NameValueCollection();
         values["message"] = $"Rahul, The wind speed from Device {deviceData.deviceid} is {deviceData.averagewindspeed} at {deviceData.outtime}. Please turn off the fan!";
-        var response = client.UploadValues("http://requestb.in/YOUR ENDPOINT IDENTIFIER", values);
+        var response = client.UploadValues("http://requestbin.com/YOUR ENDPOINT IDENTIFIER", values);
     }
 
     log.Verbose($"Message Sent.");
 }
-~~~
+```
 
 This function would simply get the content from the body of the message and send a POST request to the RequestBin endpoint. Note that the `#r` directive is used to add a reference to an assembly in the function. You can find a list of the assemblies available to Azure Functions [here](https://azure.microsoft.com/en-in/documentation/articles/functions-reference-csharp/).
 
