@@ -116,6 +116,10 @@ body {
   border-radius: 0;
 }
 
+.far,.fab {
+  padding-right: 5px;
+}
+
 .btn-span span {
   cursor: pointer;
   display: inline-block;
@@ -127,9 +131,10 @@ body {
 }
 
 .btn-span span:after {
-  font-family: FontAwesome;
-  content: '\f054';
+  font-family: 'Font Awesome 5 Free';
+  content: '\f531';
   position: absolute;
+  font-weight: 800;
   opacity: 0;
   top: 0;
   right: -15px;
@@ -304,5 +309,10 @@ blockquote {
 }
 
 .scroll-up-arrow {
+  color: #cc4444;
+}
+
+/* featured section */
+.featured-icons{
   color: #cc4444;
 }

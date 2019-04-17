@@ -27,7 +27,6 @@ paginate = 15
     description = "The Cloud Blog"
 	heapanalytics = "2215857163"
     disqus = "rahulrai"
-    google_webmaster = "QCQmaQxL8c2x6yrpUDr91jfBZNSpexndMkeOqZPFlqM"
     bing_webmaster = "F6575BFCC1322FDFE66EA304BDB69F33"
 	googlesearchid = "017749396232577371525:dkuawx7b8bc"
     favicon = "/resources/siteIcon.png"

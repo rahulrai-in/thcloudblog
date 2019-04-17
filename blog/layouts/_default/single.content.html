@@ -4,15 +4,15 @@
         {{ if eq .Type "post" }}
         {{ $categoryCount := .Params.categories | len }}
         <ul class="list-inline meta">
-            <li><i class="fa fa-calendar"></i>{{ .Date.Format "January 2, 2006" }}</li>
+            <li><i class="far fa-calendar-alt"></i>{{ .Date.Format "January 2, 2006" }}</li>
             <!--<li><i class="fa fa-user"></i>{{ .Params.author }}</li>-->
             {{ if isset .Params "categories" }}
             {{ $categoryCount := .Params.categories | len }}
-            <li><i class="fa fa-folder"></i>{{ range $index, $value := .Params.categories }}<a href="{{ "/categories/" | absURL }}{{ . | urlize }}">{{ $value }}</a>{{ if lt (add $index 1) $categoryCount }}, {{ end }}{{ end }}</li>
+            <li><i class="far fa-folder-open"></i>{{ range $index, $value := .Params.categories }}<a href="{{ "/categories/" | absURL }}{{ . | urlize }}">{{ $value }}</a>{{ if lt (add $index 1) $categoryCount }}, {{ end }}{{ end }}</li>
             {{ end }}
-            <li><i class="fa fa-clock-o" data-toggle="tooltip" title="attribution"></i>{{ .ReadingTime }} minutes</li>
+            <li><i class="far fa-clock" data-toggle="tooltip" title="attribution"></i>{{ .ReadingTime }} minutes</li>
             {{ with .Params.attribution }}
-            <li><i style="color: gold" class="fa fa-star" data-toggle="tooltip" title="attribution"></i>{{ safeHTML . }}</li>
+            <li><i style="color: gold" class="far fa-star" data-toggle="tooltip" title="attribution"></i>{{ safeHTML . }}</li>
             {{ end }}
         </ul>
         {{ end }}
