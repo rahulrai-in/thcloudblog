@@ -1,7 +1,7 @@
 +++
 author = "Rahul Rai"
 categories = ["azure", "security & identity"]
-date = "2016-08-26T17:04:47+10:00"
+date = "2016-08-26T00:00:00"
 draft = false
 tags = ["token", "owin", "credentials", "resource", "authorization", "oauth"]
 title = "Hybrid Identity Solution with Azure AD and Azure AD B2C"
@@ -40,7 +40,7 @@ Once you are redirected to the OAuth playground, you would find the single use a
 
 {{< img src="/Access%20Token%20and%20Refresh%20Token.png" alt="Access Token and Refresh Token" >}}
 
-You can manually obtain a new access token by clicking on **Refresh Access Token** button before the lifetime of access token expires (the timer in red). However, selecting "**Auto-refresh the token before it expires**" takes care of this process automatically. Now, let's try to access the resource server with your access tokens. Navigate to **step 3** and enter [https://www.googleapis.com/youtube/v3/activities?part=snippet&mine=true](https://www.googleapis.com/youtube/v3/activities?part=snippet&mine=true "https://www.googleapis.com/youtube/v3/activities?part=snippet&mine=true") as the **Request URI**. Using this URI, you can get the details of all the videos on that are rendered on your home page. Click on **Send the Request** button.
+You can manually obtain a new access token by clicking on **Refresh Access Token** button before the lifetime of access token expires (the timer in red). However, selecting "**Auto-refresh the token before it expires**" takes care of this process automatically. Now, let's try to access the resource server with your access tokens. Navigate to **step 3** and enter [https://www.googleapis.com/youtube/v3/activities?part=snippet&mine=true](https://www.googleapis.com/youtube/v3/activities?part=snippet&mine=true 'https://www.googleapis.com/youtube/v3/activities?part=snippet&mine=true') as the **Request URI**. Using this URI, you can get the details of all the videos on that are rendered on your home page. Click on **Send the Request** button.
 
 {{< img src="/YouTube%20Activity.png" alt="YouTube Activity" >}}
 
@@ -52,10 +52,10 @@ If you start with a blank ASP.net template, inside **Startup.Auth.cs** you will 
 
 Depending on the mechanism of authentication, the following methods of `AuthenticationHandler` class need to be implemented.
 
-*   `AuthenticateCoreAsync` - This method encapsulates the core authentication logic. It should look for tokens in request and return `AuthenticationTicket`, which is the container of the caller's identity.
-*   `InvokeAsync` - This method handles callbacks such as those in OAuth mechanism. In case of requests that need to be redirected, it logs in the user using some middleware such as cookie based middleware, issues a redirect and then returns true to stop processing any other middlewares. In case of requests that don't need to be redirected, it simply returns false so that the rest of the pipeline is executed.
-*   `ApplyResponseGrantAsync` - This method is invoked in the later part of processing of the authentication middleware. It is responsible for for either issuing or clearing  a token.
-*   `ApplyResponseChallengeAsync` - This method is invoked in later part of processing of the authentication middleware. It issues a challenge to the user if the application has issued unauthorized response to the request. This method may issue a redirect request to the login page.
+- `AuthenticateCoreAsync` - This method encapsulates the core authentication logic. It should look for tokens in request and return `AuthenticationTicket`, which is the container of the caller's identity.
+- `InvokeAsync` - This method handles callbacks such as those in OAuth mechanism. In case of requests that need to be redirected, it logs in the user using some middleware such as cookie based middleware, issues a redirect and then returns true to stop processing any other middlewares. In case of requests that don't need to be redirected, it simply returns false so that the rest of the pipeline is executed.
+- `ApplyResponseGrantAsync` - This method is invoked in the later part of processing of the authentication middleware. It is responsible for for either issuing or clearing  a token.
+- `ApplyResponseChallengeAsync` - This method is invoked in later part of processing of the authentication middleware. It issues a challenge to the user if the application has issued unauthorized response to the request. This method may issue a redirect request to the login page.
 
 Armed with all the knowledge, it's time to get started. Let's start with...
 
@@ -71,26 +71,26 @@ The entire source code of this sample is available for use in your applications.
 
 Download or clone the sample and follow along to get the application running. We will first configure the application to work with Azure AD B2C. For this sample I have borrowed heavily from the [official sample](https://github.com/AzureADQuickStarts/B2C-WebApp-OpenIdConnect-DotNet) for Azure AD B2C on MSDN.
 
-*   Create an Azure AD B2C instance in your subscription by following the steps mentioned [here](https://azure.microsoft.com/en-us/documentation/articles/active-directory-b2c-get-started/).
-*   Once the instance has provisioned, register your application in the instance by following the steps mentioned [here](https://azure.microsoft.com/en-us/documentation/articles/active-directory-b2c-app-registration/). The following screenshot shows the sequence of steps that need to be followed to add your application to Azure AD B2C instance.
+- Create an Azure AD B2C instance in your subscription by following the steps mentioned [here](https://azure.microsoft.com/en-us/documentation/articles/active-directory-b2c-get-started/).
+- Once the instance has provisioned, register your application in the instance by following the steps mentioned [here](https://azure.microsoft.com/en-us/documentation/articles/active-directory-b2c-app-registration/). The following screenshot shows the sequence of steps that need to be followed to add your application to Azure AD B2C instance.
 
 {{< img src="/Create%20Application%20in%20Azure%20AD%20B2C.png" alt="Create Application in Azure AD B2C" >}}
 
-*   The entire experience of authentication in Azure AD B2C is policy driven. Using policies, you can define how the user can sign-up, sign-in or edit his\her profile. Use the steps mentioned [here](https://azure.microsoft.com/en-us/documentation/articles/active-directory-b2c-reference-policies/) to create a **Sign up** and a **Sign in** policy. Do remember to choose **User ID sign-up** or **Email sign-up** in the identity providers blade. You can add as many claims as you wish. The following screenshot shows the sign in policy that I configured. You can use the **Run Now** button to experience the policy (pretty cool).
+- The entire experience of authentication in Azure AD B2C is policy driven. Using policies, you can define how the user can sign-up, sign-in or edit his\her profile. Use the steps mentioned [here](https://azure.microsoft.com/en-us/documentation/articles/active-directory-b2c-reference-policies/) to create a **Sign up** and a **Sign in** policy. Do remember to choose **User ID sign-up** or **Email sign-up** in the identity providers blade. You can add as many claims as you wish. The following screenshot shows the sign in policy that I configured. You can use the **Run Now** button to experience the policy (pretty cool).
 
 {{< img src="/Add Policy.png" alt="Add Policy" >}}
 
-*   The application uses the following nuget packages. Try rebuilding the solution to restore the nuget packages.
+- The application uses the following nuget packages. Try rebuilding the solution to restore the nuget packages.
 
-~~~
+```
 PM> Install-Package Microsoft.Owin.Security.OpenIdConnect
 PM> Install-Package Microsoft.Owin.Security.Cookies
 PM> Install-Package Microsoft.Owin.Host.SystemWeb
-~~~
+```
 
-*   Switch to **web.config** file and populate the values of Azure AD B2C configuration.
+- Switch to **web.config** file and populate the values of Azure AD B2C configuration.
 
-~~~xml
+```xml
 <appSettings>
 ...
 <add key="ida:Tenant" value="{your tenant name}.onmicrosoft.com" />
@@ -102,19 +102,19 @@ PM> Install-Package Microsoft.Owin.Host.SystemWeb
 <add key="ida:UserProfilePolicyId" value="{your tenant profile policy name}" />
 </appSettings>
 </pre>
-~~~
+```
 
-*   Let's take a look at **Startup.Auth.cs** file that handles authentication for us. We have three instances of `OpenIdConnectAuthenticationMiddleware` (derived from `AuthenticationMiddleware`), one for each B2C policy in the authentication pipeline. We have also initialized three instances of `OpenIdConnectAuthenticationHandler` (derived from `AuthenticationHandler`) with values obtained from `OpenIdConnectAuthenticationOptions`. Since the authentication mechanism is passive, the `InvokeAsync` method in `OpenIdConnectAuthenticationHandler` returns an `AuthenticationTicket` and requests redirection to the resource in case the token is valid. The method `ApplyResponseChallengeAsync` is responsible for getting the  properties of a challenge by accepting its name as parameter and redirecting the user to the appropriate endpoint so that the challenge can be completed (keep this point in mind, we will use this knowledge very soon).
+- Let's take a look at **Startup.Auth.cs** file that handles authentication for us. We have three instances of `OpenIdConnectAuthenticationMiddleware` (derived from `AuthenticationMiddleware`), one for each B2C policy in the authentication pipeline. We have also initialized three instances of `OpenIdConnectAuthenticationHandler` (derived from `AuthenticationHandler`) with values obtained from `OpenIdConnectAuthenticationOptions`. Since the authentication mechanism is passive, the `InvokeAsync` method in `OpenIdConnectAuthenticationHandler` returns an `AuthenticationTicket` and requests redirection to the resource in case the token is valid. The method `ApplyResponseChallengeAsync` is responsible for getting the  properties of a challenge by accepting its name as parameter and redirecting the user to the appropriate endpoint so that the challenge can be completed (keep this point in mind, we will use this knowledge very soon).
 
-~~~CS
+```CS
 app.UseOpenIdConnectAuthentication(CreateOptionsFromPolicy(SignUpPolicyId));
 app.UseOpenIdConnectAuthentication(CreateOptionsFromPolicy(ProfilePolicyId));
 app.UseOpenIdConnectAuthentication(CreateOptionsFromPolicy(SignInPolicyId));
-~~~
+```
 
-*   The following code crates instances of `OpenIdConnectAuthenticationOptions`.
+- The following code crates instances of `OpenIdConnectAuthenticationOptions`.
 
-~~~CS
+```CS
 private OpenIdConnectAuthenticationOptions CreateOptionsFromPolicy(string policy)
 {
     return new OpenIdConnectAuthenticationOptions
@@ -140,11 +140,11 @@ private OpenIdConnectAuthenticationOptions CreateOptionsFromPolicy(string policy
         },
     };
 }
-~~~
+```
 
-*   Now let's move to `AccountController` which will help us authenticate the user. Let's focus on `SignIn` action that is triggered when the user clicks on the **Sign In** link on the page.
+- Now let's move to `AccountController` which will help us authenticate the user. Let's focus on `SignIn` action that is triggered when the user clicks on the **Sign In** link on the page.
 
-~~~CS
+```CS
 public void SignIn()
 {
     if (!this.Request.IsAuthenticated)
@@ -154,62 +154,62 @@ public void SignIn()
         this.HttpContext.GetOwinContext().Authentication.Challenge(new AuthenticationProperties { RedirectUri = "/" }, Startup.SignInPolicyId);
     }
 }
-~~~
+```
 
-*   To invoke the authentication pipeline, you need to raise an authentication challenge. You also need to specify the name of the authentication middleware that should handle the request, which is same as the name of policy that you specified while configuring the authentication middleware. Notice that the `AuthenticationManager` connects the delegate that should handle the request to `OpenIdConnectAuthenticationHandler` that we previously configured. Essentially, the statement above is just invoking `ApplyResponseChallengeAsync` method (I hope you remember!).
+- To invoke the authentication pipeline, you need to raise an authentication challenge. You also need to specify the name of the authentication middleware that should handle the request, which is same as the name of policy that you specified while configuring the authentication middleware. Notice that the `AuthenticationManager` connects the delegate that should handle the request to `OpenIdConnectAuthenticationHandler` that we previously configured. Essentially, the statement above is just invoking `ApplyResponseChallengeAsync` method (I hope you remember!).
 
 {{< img src="/Handler Mapped to OpenIdConnectAuthenticationHandler.png" alt="Handler Mapped to OpenIdConnectAuthenticationHandler" >}}
 
-*   You need to register a user before you can try logging in. Navigate back to the application and click on **Sign Up** to raise the sign up challenge.
+- You need to register a user before you can try logging in. Navigate back to the application and click on **Sign Up** to raise the sign up challenge.
 
 {{< img src="/Sign Up.png" alt="Sign Up" >}}
 
-*   This action will take you through the experience of sign up that you previously configured.
+- This action will take you through the experience of sign up that you previously configured.
 
 {{< img src="/Sign Up Experience.png" alt="Sign Up Experience" >}}
 
-*   Try the **Sign In** operation after you have signed up. Next, we will enumerate all the claims that the authenticated user has. Navigate to [https://localhost:portnumber/Home/Claims](https://localhost:portnumber/Home/Claims) which is an `Authorized` action that lists your claims.
+- Try the **Sign In** operation after you have signed up. Next, we will enumerate all the claims that the authenticated user has. Navigate to [https://localhost:portnumber/Home/Claims](https://localhost:portnumber/Home/Claims) which is an `Authorized` action that lists your claims.
 
 {{< img src="/View B2C Claims.png" alt="View B2C Claims" >}}
 
 Let's now move on to integrate Azure AD in this solution. Do remember the point that we can selectively invoke a middleware by using its name. We will use this fact to build the sample further.
 
-*   Create an Azure AD instance by following the steps mentioned [here](https://azure.microsoft.com/en-us/documentation/articles/active-directory-administer/#how-can-i-get-an-azure-ad-directory).
-*   Create a new group named **Employee** in the AD instance with the help of steps mentioned [here](https://azure.microsoft.com/en-us/documentation/articles/active-directory-accessmanagement-manage-groups/#how-do-i-create-a-group).
+- Create an Azure AD instance by following the steps mentioned [here](https://azure.microsoft.com/en-us/documentation/articles/active-directory-administer/#how-can-i-get-an-azure-ad-directory).
+- Create a new group named **Employee** in the AD instance with the help of steps mentioned [here](https://azure.microsoft.com/en-us/documentation/articles/active-directory-accessmanagement-manage-groups/#how-do-i-create-a-group).
 
 {{< img src="/External Directory.png" alt="External Directory" >}}
 
-*   Add a new user to the directory by following the steps mentioned [here](https://azure.microsoft.com/en-us/documentation/articles/active-directory-create-users/).
+- Add a new user to the directory by following the steps mentioned [here](https://azure.microsoft.com/en-us/documentation/articles/active-directory-create-users/).
 
 {{< img src="/Add User to AD.png" alt="Add User to AD" >}}
 
-*   Add this user to the **Employee** group that you just created by following the steps mentioned [here](https://azure.microsoft.com/en-us/documentation/articles/active-directory-accessmanagement-manage-groups/#how-do-i-add-or-remove-individual-users-in-a-security-group). We are performing this action because the groups that the user is part of automatically get translated to the roles (role claim) of the signed in user.
+- Add this user to the **Employee** group that you just created by following the steps mentioned [here](https://azure.microsoft.com/en-us/documentation/articles/active-directory-accessmanagement-manage-groups/#how-do-i-add-or-remove-individual-users-in-a-security-group). We are performing this action because the groups that the user is part of automatically get translated to the roles (role claim) of the signed in user.
 
 {{< img src="/Add User to Group.png" alt="Add User to Group" >}}
 
-*   Now, let's integrate Azure AD with our application. Follow the steps mentioned [here](https://azure.microsoft.com/en-us/documentation/articles/active-directory-integrating-applications/) to add your application to the Azure AD instance that you provisioned.
+- Now, let's integrate Azure AD with our application. Follow the steps mentioned [here](https://azure.microsoft.com/en-us/documentation/articles/active-directory-integrating-applications/) to add your application to the Azure AD instance that you provisioned.
 
 {{< img src="/Add Application to Azure AD.png" alt="Add Application to Azure AD" >}}
 
-*   Now add the relevant configuration details to the **web.config** file of the application.
+- Now add the relevant configuration details to the **web.config** file of the application.
 
-~~~XML
+```XML
 <add key="ida:B2ETenant" value="{your tenant name}.onmicrosoft.com" />
 <add key="ida:B2EClientId" value="{your application client id}" />
 <add key="ida:B2EAadInstance" value="https://login.microsoftonline.com/{0}" />
 <add key="ida:RedirectUri" value="https://localhost:44339/" />
 <add key="ida:B2EEmployeeSignInPolicyId" value="OpenIdConnect-B2E" />
-~~~
+```
 
-*   Let's revisit the **Startup.Auth.cs** file. Here you will find the following statement that injects Azure AD middleware to the authentication pipeline.
+- Let's revisit the **Startup.Auth.cs** file. Here you will find the following statement that injects Azure AD middleware to the authentication pipeline.
 
-~~~CS
+```CS
 app.UseOpenIdConnectAuthentication(this.CreateB2EOptions());
-~~~
+```
 
-*   The `CreateB2EOptions` method supplies necessary values to `OpenIdConnectAuthenticationHandler` through a new instance of `OpenIdConnectAuthenticationOptions`. Note that we have supplied a name to this middleware just as we did to the Azure AD B2C middleware.
+- The `CreateB2EOptions` method supplies necessary values to `OpenIdConnectAuthenticationHandler` through a new instance of `OpenIdConnectAuthenticationOptions`. Note that we have supplied a name to this middleware just as we did to the Azure AD B2C middleware.
 
-~~~CS
+```CS
 private OpenIdConnectAuthenticationOptions CreateB2EOptions()
 {
     return new OpenIdConnectAuthenticationOptions
@@ -224,11 +224,11 @@ private OpenIdConnectAuthenticationOptions CreateB2EOptions()
         AuthenticationType = B2EEmployeeSignInPolicyId
     };
 }
-~~~
+```
 
-*   Now let's revisit the `AccountController` and check the action that allows an _employee_ to sign in. The code should look very familiar to you as it just raises a challenge for Azure AD middleware to complete.
+- Now let's revisit the `AccountController` and check the action that allows an _employee_ to sign in. The code should look very familiar to you as it just raises a challenge for Azure AD middleware to complete.
 
-~~~CS
+```CS
 public void EmployeeSignIn()
 {
     if (!this.Request.IsAuthenticated)
@@ -236,23 +236,23 @@ public void EmployeeSignIn()
         this.HttpContext.GetOwinContext().Authentication.Challenge(new AuthenticationProperties { RedirectUri = "/" }, Startup.B2EEmployeeSignInPolicyId);
     }
 }
-~~~
+```
 
-*   Let's sign in to the application with the user that we created in the Azure AD by clicking on **Sign in-Employee** link. You might be required to change your password the first time you sign in.
+- Let's sign in to the application with the user that we created in the Azure AD by clicking on **Sign in-Employee** link. You might be required to change your password the first time you sign in.
 
 {{< img src="/Login Employee.png" alt="Login Employee" >}}
 
-*   Take a look at another method named `EmployeeClaims` in Home controller that allows access only to users with the role **Employee**. We will invoke this method by accessing [https://localhost:port/Home/EmployeeClaims](https://localhost:port/Home/EmployeeClaims).
+- Take a look at another method named `EmployeeClaims` in Home controller that allows access only to users with the role **Employee**. We will invoke this method by accessing [https://localhost:port/Home/EmployeeClaims](https://localhost:port/Home/EmployeeClaims).
 
-~~~CS
+```CS
 [Authorize(Roles = "Employee")]
 public ActionResult EmployeeClaims()
 {
     return View();
 }
-~~~
+```
 
-*   The result
+- The result
 
 {{< img src="/Employee Claims.png" alt="Employee Claims" >}}
 

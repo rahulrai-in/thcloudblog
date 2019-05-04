@@ -1,7 +1,7 @@
 +++
 author = "Rahul Rai"
 categories = ["tools & gadgets"]
-date = "2016-08-04T17:04:47+10:00"
+date = "2016-08-04T00:00:00"
 draft = false
 tags = ["ahk", "caps lock", "lync", "skype", "sydney", "tool", "nimble text"]
 title = "Stop Wasting Your Time Use Auto Hot Key and Nimble Text"
@@ -23,7 +23,7 @@ Following are two tools that I use to shave a few seconds off my workday: [Auto 
 
 I think that placing the caps lock key right next to heavily used keys is an example of bad design. I don't remember the last time I used this key (maybe I should start FLAMING PEOPLE MORE). It gets pressed accidentally on a regular basis and requires you to undo text or normalize the casing wasting precious time. I discovered a script that tackles this menace beautifully. Use the script below to make CAPS LOCK key stay off unless you double tap it.
 
-~~~bash
+```bash
 CapsLock::
     if A_PriorHotkey = CapsLock
     {
@@ -38,13 +38,13 @@ CapsLock::
     keywait, CapsLock
     SetCapsLockState, OFF
     return
-~~~
+```
 
 ### 2. Disable the trackpad while you are typing
 
 I am not a fan of laptop keyboards, they are small and the trackpad eats into the space meant for my wrists and thumb. Reclaim the lost keyboard space with this script which keeps the trackpad disabled while you type.
 
-~~~bash
+```bash
 #NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
@@ -133,13 +133,13 @@ CallNextHookEx(nCode, wParam, lParam, hHook = 0)
 {
    Return DllCall("CallNextHookEx", "Uint", hHook, "int", nCode, "Uint", wParam, "Uint", lParam)
 }
-~~~
+```
 
 ### 3. Say Hello on Skype for Business (FKA Lync)
 
 I developed this mini hack myself. To sound courteous, I start each conversation on Skype with a "Hi, [First Name]". However, since I work with multicultural teams (good thing), sometimes the first names can be a bit too long or complex for me to write without looking up the name twice in the contacts box (bad thing) and people would immediately notice if I wreck their first names. I let AHK handle the formalities for me. This script reads text from the title bar of chat window, formats it and writes the output to chat text box.
 
-~~~bash
+```bash
 #Persistent
 SetTimer, SayHi, 500
 return
@@ -153,7 +153,7 @@ IfWinActive ahk_class LyncTabFrameHostWindowClass
     winwaitclose
     return
 }
-~~~
+```
 
 Those were some of the most common scripts that I use daily. However, there are tons of scripts available in [library](https://github.com/ahkscript/awesome-AutoHotkey) of ahkscript community, many of which may be useful to you. Even more scripts are available at the official [AHK website](https://autohotkey.com/docs/scripts/). Of course, you can build your own and make your life easier. Let me know your favorite ones in the comments section.
 

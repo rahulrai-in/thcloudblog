@@ -1,7 +1,7 @@
 ﻿+++
 author = "Rahul Rai"
 categories = ["azure", "networking"]
-date = "2015-11-05T17:04:47+10:00"
+date = "2015-11-05T00:00:00"
 draft = false
 tags = ["vm", "virtual machine", "load balancer", "layer 7", "layer 4", "osi", "iso", "request routing", "arr", "cookie", "ssl", "vnet", "virtual network"]
 title = "Hands-on with Microsoft Azure Application Gateway"
@@ -83,9 +83,9 @@ Following is a screenshot of the solution structure. The various components of t
 
 We’ll start by creating (downloading works better) an application that is not only contrived but also sucks. The applications will save session state in memory (metal love) and respond to your page refreshes with updated session data. We will then create an [Azure Virtual Network](https://azure.microsoft.com/en-in/services/virtual-network/) and create two Azure Virtual Machines which are connected to the Virtual Network within a single Subnet. Next, we will deploy the application on the two Azure Virtual Machines. Finally, we’ll create and configure an Azure Application Gateway and send requests to the VMs through the gateway. Let’s begin.
 
-*   Create an MVC application and place the following code in the default view. This code will help identify the server that is serving the request and display the updated session value on every refresh (happens automatically every 5 seconds).
+- Create an MVC application and place the following code in the default view. This code will help identify the server that is serving the request and display the updated session value on every refresh (happens automatically every 5 seconds).
 
-~~~HTML
+```HTML
 <head>
     <title>Test Application</title>
     <link rel="stylesheet" href="~/Scripts/Style.css" type="text/css" />
@@ -118,14 +118,14 @@ We’ll start by creating (downloading works better) an application that is not 
     </div>
 </body>
 </html>
-~~~
+```
 
-*   In Azure Management Portal create a VNet and a subnet in that VNet named Subnet-1 (gets created by default). Follow the steps mentioned [here](https://azure.microsoft.com/en-in/documentation/articles/virtual-networks-create-vnet-arm-pportal/).
-*   Create two Windows Server VMs connected to the VNet and enable IIS in them. You can follow the steps mentioned [here](https://azure.microsoft.com/en-in/documentation/articles/virtual-machines-create-custom/) to create VMs inside the VNet.
-*   [Enable port 80](https://azure.microsoft.com/en-in/documentation/articles/virtual-machines-set-up-endpoints/) on your VMs and [deploy your site in the VMs](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-dotnet-create-visual-studio-powershell/).
-*   Execute **GatewayCreationScript.ps1** script to create an Application Gateway named **noscaleapplicationgateway** in your VNet. Note that there are two configurable variables, **SubscriptionName** (which is the name of your subscription) and **GatewayconfigurationFilePath** (which is the path to **GatewayConfiguration.xml**), for which you should provide values to execute the script successfully. The following commands are responsible for creating the Gateway, configuring it and starting it.
+- In Azure Management Portal create a VNet and a subnet in that VNet named Subnet-1 (gets created by default). Follow the steps mentioned [here](https://azure.microsoft.com/en-in/documentation/articles/virtual-networks-create-vnet-arm-pportal/).
+- Create two Windows Server VMs connected to the VNet and enable IIS in them. You can follow the steps mentioned [here](https://azure.microsoft.com/en-in/documentation/articles/virtual-machines-create-custom/) to create VMs inside the VNet.
+- [Enable port 80](https://azure.microsoft.com/en-in/documentation/articles/virtual-machines-set-up-endpoints/) on your VMs and [deploy your site in the VMs](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-dotnet-create-visual-studio-powershell/).
+- Execute **GatewayCreationScript.ps1** script to create an Application Gateway named **noscaleapplicationgateway** in your VNet. Note that there are two configurable variables, **SubscriptionName** (which is the name of your subscription) and **GatewayconfigurationFilePath** (which is the path to **GatewayConfiguration.xml**), for which you should provide values to execute the script successfully. The following commands are responsible for creating the Gateway, configuring it and starting it.
 
-~~~PowerShell
+```PowerShell
 $checkGateway = Get-AzureApplicationGateway noscaleapplicationgateway
 if($checkGateway -eq $null)
 {
@@ -138,14 +138,18 @@ Set-AzureApplicationGatewayConfig -Name noscaleapplicationgateway -ConfigFile $G
 Start-AzureApplicationGateway noscaleapplicationgateway
 #Verify that gateway is running
 Get-AzureApplicationGateway noscaleapplicationgateway
-~~~
-*   Once the Gateway starts (at which point billing also starts), the **Get-AzureApplicationGateway** command will return a result that looks like the following. Note the **DnsName** field which contains the URL which users can access to interface with the Application Gateway.
+```
+
+- Once the Gateway starts (at which point billing also starts), the **Get-AzureApplicationGateway** command will return a result that looks like the following. Note the **DnsName** field which contains the URL which users can access to interface with the Application Gateway.
 
 {{< img src="/Powershell Result.png" alt="Powershell Result" >}}
 
 ## Further
+
 I recommend that you read about the various Azure Application Gateway configuration elements [here](https://msdn.microsoft.com/en-us/library/azure/mt299391.aspx). You can read more about creating an Azure Application Gateway [here](https://azure.microsoft.com/en-in/documentation/articles/application-gateway-create-gateway/).
+
 ## Results
+
 Try accessing the Application Gateway URL from different browsers to hopefully hit the different VMs that you deployed (you can keep closing and reopening browsers until you succeed). Your screen .should look similar to the following. Note that I am accessing the Application Gateway URL here.
 
 {{< img src="/Application Gateway In Action.png" alt="Application Gateway In Action" >}}

@@ -1,7 +1,7 @@
 ﻿+++
 author = "Rahul Rai"
 categories = ["azure", "devops", "app-service"]
-date = "2018-07-26T17:04:47+10:00"
+date = "2018-07-26T00:00:00"
 draft = false
 tags = ["webapp", "azure", "devops","docker","kubernetes"]
 title = "Add DevOps To Your Existing Dockerized Applications With Azure DevOps Projects"
@@ -18,10 +18,11 @@ Using Azure DevOps Projects, you can:
 4. Bring the goodness of DevOps to existing projects.
 
 The Azure DevOps Projects make it simple for you to choose appropriate Azure services to host your application and allows you to focus on building applications rather than build and release pipelines. You can read more about Azure DevOps projects [here](https://docs.microsoft.com/en-us/azure/devops-project/).
-  
+
 Remember, although you will be interacting with wizards in Azure Management Portal to configure a DevOps project, you can still tweak the build and release workflows that are automatically generated to suit your needs. In fact, we will do just that in our example that we will discuss in this article.
 
 ## The Application
+
 The [DevOps Projects documentation](https://docs.microsoft.com/en-us/azure/devops-project/) is excellent at explaining how you can onboard new applications to Azure DevOps. However, it is equally easy to onboard an existing application to Azure DevOps Projects as long as you can build your application using a single Dockerfile (Compose capabilities are not available yet). For our example, we will use the ASP.net core application generated from the default application template from Visual Studio. The following image shows the Visual Studio template selection wizard.
 
 {{< img src="/Default ASPNet Core Application.png" alt="Default ASP.net Core Application" >}}
@@ -30,7 +31,7 @@ Notice that I have enabled Docker support in the dialog. However, you can easily
 
 You will notice that the solution that unfolds after completing the wizard contains a Dockerfile with instructions for building an image, and a Docker Compose project which contains definitions for multi-container Docker applications. Remove the Docker Compose project and replace the code in the Docker file to the following code listing. If you are starting with an existing .Net core project, then add a Dockerfile with the following code at the root of the project.
 
-~~~SQL
+```SQL
 FROM microsoft/dotnet:2.1-aspnetcore-runtime AS base
 WORKDIR /app
 
@@ -49,7 +50,7 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
 ENTRYPOINT ["dotnet", "DevOpsTest.dll"]
-~~~
+```
 
 Following is how my solution structure looks like.
 
@@ -58,6 +59,7 @@ Following is how my solution structure looks like.
 Your code should be present in a git repository for the integration to work. My repository is present in GitHub. However, you can choose any source control that you like such as BitBucket, GitLab, and Visual Studio.
 
 ## DevOps Project
+
 Head over to the Azure management portal and search for **DevOps Project** in the search bar and click on the **Add** button. Next, in the wizard, select the **Bring Your Own Code** option.
 
 {{< img src="/Select Bring Your Own Code Option.png" alt="Select Bring Your Own Code Option" >}}
@@ -70,7 +72,7 @@ In the next step, you need to tell the DevOps Project whether your application s
 
 {{< img src="/Selct Docker Option For Your App.png" alt="Select Docker Option For Your App" >}}
 
-In the next step, we are given the infrastructure options for hosting our application. We can host a containerized application in AKS (Azure Kubernetes Service) and Web App for Containers. I have chosen the **Web App for Containers** option. You will be asked to supply the path to the Dockerfile in this step. The path can be relative or absolute. I have set it to ** **/DevOpsTest/DockerFile** since my file is present inside the DevOpsTest project folder.
+In the next step, we are given the infrastructure options for hosting our application. We can host a containerized application in AKS (Azure Kubernetes Service) and Web App for Containers. I have chosen the **Web App for Containers** option. You will be asked to supply the path to the Dockerfile in this step. The path can be relative or absolute. I have set it to \*\* **/DevOpsTest/DockerFile** since my file is present inside the DevOpsTest project folder.
 
 {{< img src="/Enter Your DockerFile Path.png" alt="Enter Your DockerFile Path" >}}
 
@@ -84,7 +86,7 @@ You can customize the Azure Resources that you have specified by clicking on the
 
 After you click the **Complete** button, a four-stage operation starts in the background.
 
-1. **Azure Resources**: All Azure resources such as App Service, App Service Plan, and Web App are provisioned. 
+1. **Azure Resources**: All Azure resources such as App Service, App Service Plan, and Web App are provisioned.
 2. **Repository**: A Git repository is created in VSTS, and the code is checked in.
 3. **CI/CD Pipeline**: A CI and CD pipeline is created and connected to your repository.
 4. **Application Insights**: An AppInsight resource is created and connected to your WebApp to monitor the application in real-time.

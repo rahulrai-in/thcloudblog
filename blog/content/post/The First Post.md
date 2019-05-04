@@ -1,7 +1,7 @@
 ﻿+++
 author = "Rahul Rai"
 categories = ["azure", "app service"]
-date = "2015-07-30T17:04:47+10:00"
+date = "2015-07-30T00:00:00"
 draft = false
 tags = ["first blog", "github", "msdn", "first", "redis", "documentdb", "search"]
 title = "The First Post"
@@ -15,14 +15,14 @@ Finally, my custom blogging platform is ready and raring to go. I will try to wr
 
 First, the technology stack:
 
-*   [Microsoft Azure Web App](http://azure.microsoft.com/en-us/) for MVC based user interface.
-*   [Microsoft Azure Table Storage](https://azure.microsoft.com/en-in/documentation/articles/storage-table-design-guide/) for storing blog content.
-*   [Microsoft Azure Blob Storage](https://azure.microsoft.com/en-in/documentation/articles/storage-dotnet-how-to-use-blobs/) for storing some platform resources and all media content of blog.
-*   [Microsoft Azure Search Service](http://azure.microsoft.com/en-in/services/search/) for enabling search on the content.
-*   [Microsoft Azure DocumentDb](http://azure.microsoft.com/en-in/services/documentdb/) for capturing inputs from my site audience such as for Testimonials.
-*   [Microsoft Azure Redis Cache](http://azure.microsoft.com/en-in/services/cache/) for storing sessions and cache data.
-*   Analytics through [Google](http://www.google.co.in/analytics/) and [AppInsight](https://azure.microsoft.com/en-us/documentation/articles/app-insights-get-started/).
-*   [GitHub](https://github.com/rahulrai-in) for source control.
+- [Microsoft Azure Web App](http://azure.microsoft.com/en-us/) for MVC based user interface.
+- [Microsoft Azure Table Storage](https://azure.microsoft.com/en-in/documentation/articles/storage-table-design-guide/) for storing blog content.
+- [Microsoft Azure Blob Storage](https://azure.microsoft.com/en-in/documentation/articles/storage-dotnet-how-to-use-blobs/) for storing some platform resources and all media content of blog.
+- [Microsoft Azure Search Service](http://azure.microsoft.com/en-in/services/search/) for enabling search on the content.
+- [Microsoft Azure DocumentDb](http://azure.microsoft.com/en-in/services/documentdb/) for capturing inputs from my site audience such as for Testimonials.
+- [Microsoft Azure Redis Cache](http://azure.microsoft.com/en-in/services/cache/) for storing sessions and cache data.
+- Analytics through [Google](http://www.google.co.in/analytics/) and [AppInsight](https://azure.microsoft.com/en-us/documentation/articles/app-insights-get-started/).
+- [GitHub](https://github.com/rahulrai-in) for source control.
 
 Before I say anything else, I would like to say that you can find the whole source code available on my [GitHub](https://github.com/rahulrai-in) account. I would use [MSDN](https://social.msdn.microsoft.com/profile/rahul.rai/) and [GitHub](https://github.com/rahulrai-in) to post samples and you are free to use them, though, I would not mind link backs and comments as tokens of appreciation :)
 

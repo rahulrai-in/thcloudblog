@@ -1,7 +1,7 @@
 ﻿+++
 author = "Rahul Rai"
 categories = ["azure", "security & identity"]
-date = "2016-01-23T17:04:47+10:00"
+date = "2016-01-23T00:00:00"
 draft = false
 tags = ["github", "webapp", "website", "app setting", "connection string", "configurationmanager", "active directory ad", "config", "hardware security module hsm", "settings", "handler"]
 title = "Inject Confidential Configuration Data From Azure Key Vault Into Your Application"
@@ -40,9 +40,9 @@ Follow the steps documented [here](https://azure.microsoft.com/en-in/documentati
 
 Execute the following script (**SetupKeyVault.ps1**) to provision your Key Vault, add some application secrets to it and allow your application to read secrets from it.
 
-~~~PowerShell 
+```PowerShell
 #Login to your Azure Account
-Login-AzureRmAccount 
+Login-AzureRmAccount
 #Set your subscription as default
 Set-AzureRmContext -SubscriptionId #YOUR SUBSCRIPTION ID#
 #Create new Resource Group
@@ -56,19 +56,19 @@ Set-AzureKeyVaultSecret -VaultName 'KeyVaultAppSettings' -Name 'APPSETTING-Secre
 Set-AzureKeyVaultSecret -VaultName 'KeyVaultAppSettings' -Name 'SQLCONNSTR-SecretKey2' -SecretValue $secretValue2
 #Grant permission to your application.
 Set-AzureRmKeyVaultAccessPolicy -VaultName 'KeyVaultAppSettings' -ServicePrincipalName '#YOUR APPLICATION ID (Provisioned in Azure AD)#' -PermissionsToKeys all -PermissionsToSecrets all
-~~~
+```
 
 ## Build A Settings Provider
 
 The last step is to create a module that can read these secrets from Key Vault and add them to the application configuration. Create an MVC or Web Forms project. Create a class named `SettingsProcessor` in the same assembly as your Web Application. Decorate your class with the following attribute which instructs the runtime to execute the `Start` method in `SettingsProcessor` class before the application starts.
 
-~~~CS
+```CS
 [assembly: PreApplicationStartMethod(typeof(SettingsProcessor), "Start")]
-~~~
+```
 
 Next, write the following code in `Start` method to read secrets from Key Vault and plug it into the application configuration sections according to the prefixes. If the name of secret begins with “APPSETTING”, then the secret goes to  the application setting and if the name of secret begins with “SQLCONNSTR”, then the secret goes to the connection strings section of application configuration. The rest of the code is self explanatory.
 
-~~~CS 
+```CS
 public static void Start()
 {
     var keys = KeyVaultHandler.GetKeys();
@@ -90,11 +90,11 @@ public static void Start()
         }
     }
 }
-~~~
+```
 
 The complete code of `SettingsProcessor` class is listed below.
 
-~~~CS 
+```CS
 [assembly: PreApplicationStartMethod(typeof(SettingsProcessor), "Start")]
 
 namespace KeyVaultAppSettingWebApp
@@ -195,11 +195,11 @@ namespace KeyVaultAppSettingWebApp
         #endregion
     }
 }
-~~~
+```
 
 We will create a helper class named `KeyVaultHandler` that interacts with Key Vault and gets the list of secrets and their values. The complete code of this class is listed below.
 
-~~~CS 
+```CS
 public static class KeyVaultHandler
 {
     #region Static Fields
@@ -282,7 +282,7 @@ public static class KeyVaultHandler
 
     #endregion
 }
-~~~
+```
 
 That’s it! Just add your Key Vault name, your client id and client key to web config as application settings to complete the setup. Just to demonstrate that things are working, I displayed the secrets on the landing page of the sample application.
 

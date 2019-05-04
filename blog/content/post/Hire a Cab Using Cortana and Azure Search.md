@@ -1,7 +1,7 @@
 +++
 author = "Rahul Rai"
 categories = ["azure", "web & mobile"]
-date = "2016-02-18T17:04:47+10:00"
+date = "2016-02-18T00:00:00"
 draft = false
 tags = ["device", "documentdb", "job", "findcab", "universal windows platform", "index", "event hub", "bing map", "cab", "geospatial", "stream analytics", "uwp", "gps", "postman", "voice command", "cortana"]
 title = "Hire a Cab Using Cortana and Azure Search"
@@ -39,11 +39,11 @@ There are two types of flows executing in the application. One of the flows keep
 
 Before we dig into how this application was built, let's see this application in action.
 
-*   The following screen shows how to ask Cortana to ask the **FindCab** application to search for cabs in a particular location using the search term "FindCab in {Location Name}	".
+- The following screen shows how to ask Cortana to ask the **FindCab** application to search for cabs in a particular location using the search term "FindCab in {Location Name} ".
 
 {{< img src="/SearchInRegion.gif" alt="SearchInRegion" >}}
 
-*   The following screen shows how to ask Cortana to ask the **FindCab** application to search for cabs nearby the user (in 100 kms. radius) using the search term "FindCab nearby".
+- The following screen shows how to ask Cortana to ask the **FindCab** application to search for cabs nearby the user (in 100 kms. radius) using the search term "FindCab nearby".
 
 {{< img src="/SearchNearby.gif" alt="SearchNearby" >}}
 
@@ -57,17 +57,17 @@ Before I begin the walkthrough, I would like to say that this application is a p
 
 ### Create Infrastructure
 
-*   Start by provisioning a Search Service account with a name e.g. **findmeacab**. See [steps](https://azure.microsoft.com/en-us/documentation/articles/search-create-service-portal/).
-*   Create an index in your search service and name it **cabdataindex**. See [steps](https://azure.microsoft.com/en-us/documentation/articles/search-create-index-portal/). Since we are going to supply serialized data of format `GpsSensorRecord` to the index, therefore you would need to specify the format shown below for the search index.
+- Start by provisioning a Search Service account with a name e.g. **findmeacab**. See [steps](https://azure.microsoft.com/en-us/documentation/articles/search-create-service-portal/).
+- Create an index in your search service and name it **cabdataindex**. See [steps](https://azure.microsoft.com/en-us/documentation/articles/search-create-index-portal/). Since we are going to supply serialized data of format `GpsSensorRecord` to the index, therefore you would need to specify the format shown below for the search index.
 
 {{< img src="/Search Index.png" alt="Search Index" >}}
 
-*   Next, create a DocumentDB account e.g. **findmeacab**. See [steps](https://azure.microsoft.com/en-us/documentation/articles/documentdb-create-account/).
-*   Create an Event Hub account, e.g. **findmeacabeventhub**, to capture GPS sensor data of the cab. See [steps](https://azure.microsoft.com/en-us/documentation/articles/event-hubs-csharp-ephcs-getstarted/#create-an-event-hub).
-*   Create a Stream Analytics job, e.g. **gpssensoranalytics**. See [steps](https://azure.microsoft.com/en-us/documentation/articles/stream-analytics-get-started/#create-stream-analytics-job).
-*   Create a database in the DocumentDB you provisioned earlier. Name it **cabsensordata**. See [steps to create a database](https://azure.microsoft.com/en-us/documentation/articles/documentdb-create-database/).
-*   Create a collection in the DocumentDb database that you provisioned. Name it **cabgpsdatacollection**. See [steps to create a collection](https://azure.microsoft.com/en-us/documentation/articles/documentdb-create-collection/).
-*   Log in to [Bing Maps Dev Center](https://www.bingmapsportal.com/) and create a Bing Maps Key for your application.
+- Next, create a DocumentDB account e.g. **findmeacab**. See [steps](https://azure.microsoft.com/en-us/documentation/articles/documentdb-create-account/).
+- Create an Event Hub account, e.g. **findmeacabeventhub**, to capture GPS sensor data of the cab. See [steps](https://azure.microsoft.com/en-us/documentation/articles/event-hubs-csharp-ephcs-getstarted/#create-an-event-hub).
+- Create a Stream Analytics job, e.g. **gpssensoranalytics**. See [steps](https://azure.microsoft.com/en-us/documentation/articles/stream-analytics-get-started/#create-stream-analytics-job).
+- Create a database in the DocumentDB you provisioned earlier. Name it **cabsensordata**. See [steps to create a database](https://azure.microsoft.com/en-us/documentation/articles/documentdb-create-database/).
+- Create a collection in the DocumentDb database that you provisioned. Name it **cabgpsdatacollection**. See [steps to create a collection](https://azure.microsoft.com/en-us/documentation/articles/documentdb-create-collection/).
+- Log in to [Bing Maps Dev Center](https://www.bingmapsportal.com/) and create a Bing Maps Key for your application.
 
 ### Connect Stream Analytics to DocumentDB
 
@@ -85,7 +85,7 @@ Note that we have written a simple pass through query which simply collects data
 
 Navigate to **FindMeACab.Tests.SensorClient** console application project and supply configuration values in the app.config file of the project.
 
-~~~XML 
+```XML
 <appSettings>
   <add key="EventHubName" value="EVENT HUB NAME" />
   <add key="EventHubConnectionString" value="CONNECTION STRING VALUE" />
@@ -95,7 +95,7 @@ Navigate to **FindMeACab.Tests.SensorClient** console application project and su
   <add key="SearchServiceName" value="AZURE SEARCH SERVICE NAME" />
   <add key="SearchServiceKey" value="AZURE SEARCH SERVICE KEY" />
 </appSettings>
-~~~
+```
 
 Start the console application to send simulated test data to the Event Hub. You can change the names and locations of simulated vehicles by changing test data in class `TestDataGenerator`. Use tools such as [DocumntDB Studio](https://github.com/mingaliu/DocumentDBStudio) to validate whether records are getting inserted in your DocumentDB via Stream Analytics job.
 
@@ -103,15 +103,15 @@ Start the console application to send simulated test data to the Event Hub. You 
 
 We will now create an indexer that runs on regular intervals and queries and indexes data inserted in DocumentDB. The indexer will only get the documents that have been modified (if you use **dataChangeDetectionPolicy**) and copy the projected data to the Azure Search index. You can use the steps mentioned [here](https://azure.microsoft.com/en-us/documentation/articles/documentdb-search-indexer/) to create an indexer named **documentdbindexer** using your DocumentDB (**findmeacab**) as a data source. You can use any REST client to perform this activity. Here you can see how I use [POSTMAN](http://www.getpostman.com/) to execute the REST requests. Note that you need to set content and authentication header in **each** request.
 
-*   Request Header
+- Request Header
 
 {{< img src="/Azure Search Request Header.png" alt="Azure Search Request Header" >}}
 
-*   Create Data Source Request
+- Create Data Source Request
 
 {{< img src="/Azure Search Create Data Source.png" alt="Azure Search Create Data Source" >}}
 
-*   Create Indexer Request
+- Create Indexer Request
 
 {{< img src="/Azure Search Create Indexer.png" alt="Azure Search Create Indexer" >}}
 
@@ -123,7 +123,7 @@ This is the final point of integration and fairly simple to achieve if you have 
 
 1.  We will first define the Voice Commands that we would use. The **VoiceCommandDefinition.xml** in **CabSearchUniversalApp** project defines the voice commands that we would use.
 
-~~~XML 
+```XML
 <?xml version="1.0" encoding="utf-8" ?>
 <VoiceCommands xmlns="http://schemas.microsoft.com/voicecommands/1.2">
   <CommandSet xml:lang="en" Name="FindMeACab_en">
@@ -148,18 +148,18 @@ This is the final point of integration and fairly simple to achieve if you have 
   </CommandSet>
 
 </VoiceCommands>
-~~~
+```
 
 1.  Next, we need to install this file. We will use the `OnLaunched` event of the application and use the following code for the operation.
 
-~~~CS
+```CS
 var vcdfile = await Package.Current.InstalledLocation.GetFileAsync(@"VoiceCommandDefinition.xml");
 await VoiceCommandDefinitionManager.InstallCommandDefinitionsFromStorageFileAsync(vcdfile);
-~~~
+```
 
 1.  Lastly, we are going to create a Background Service named `CabSearchBackgroundService` and listen for the voice commands.
 
-~~~CS 
+```CS
 this.voiceCommandServiceConnection =
     VoiceCommandServiceConnection.FromAppServiceTriggerDetails(triggerDetails);
 this.voiceCommandServiceConnection.VoiceCommandCompleted += (sender, args) => this.deferral?.Complete();
@@ -177,11 +177,11 @@ switch (voicecommand.CommandName)
         await this.SearchCabsNearby();
         break;
 }
-~~~
+```
 
 The rest of the code is responsible for querying the index, retrieving the results and sending the results to Cortana. Azure search supports [geospatial queries](https://msdn.microsoft.com/en-us/library/azure/dn798921.aspx) by which you can search for documents, that have a searchable Geo coordinate field, present inside a given polygon coordinates or within a certain distance from a given geographical coordinate. On querying for a location, Bing maps get you the bounding box coordinates of the location. We will use the bounding box coordinates to find cabs present within a region. The following function in class `CabSearch` in **CabSearchBackgroundService** project is responsible for executing this flow.
 
-~~~CS 
+```CS
 private async Task SearchCabsInArea(string area)
 {
     var locationData = new LocationData(BingApiKey).GetBoundingBoxCoordinates($"{area},India").Result;
@@ -207,11 +207,11 @@ private async Task SearchCabsInArea(string area)
     var response = VoiceCommandResponse.CreateResponse(successmessage, tilelist);
     await this.voiceCommandServiceConnection.ReportSuccessAsync(response);
 }
-~~~
+```
 
 We will use the user's device coordinates to search for cabs near the user. The following function in class `CabSearch` in **CabSearchBackgroundService** project is responsible for executing this flow.
 
-~~~CS 
+```CS
 private async Task SearchCabsNearby()
 {
     var geolocator = new Geolocator();
@@ -243,7 +243,7 @@ private async Task SearchCabsNearby()
     var response = VoiceCommandResponse.CreateResponse(successmessage, tilelist);
     await this.voiceCommandServiceConnection.ReportSuccessAsync(response);
 }
-~~~
+```
 
 ### Finishing Touches
 

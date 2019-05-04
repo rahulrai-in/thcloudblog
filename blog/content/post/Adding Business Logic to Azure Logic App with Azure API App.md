@@ -1,7 +1,7 @@
 ﻿+++
 author = "Rahul Rai"
 categories = ["azure", "app-service"]
-date = "2015-10-13T17:04:47+10:00"
+date = "2015-10-13T00:00:00"
 draft = false
 tags = ["email", "connector", "biztalk", "one drive", "web api", "office 365", "apiapp"]
 title = "Adding Business Logic to Azure Logic App with Azure API App"
@@ -9,7 +9,7 @@ type = "post"
 slug = "adding-business-logic-to-azure-logic-app-with-azure-api-app"
 +++
 
-I hope you had a chance to watch or attend [AzureCon](https://azure.microsoft.com/en-us/azurecon/) lately. If you watch the keynotes, you would be overwhelmed by tons of great announcements that were made. All the sessions are available [on demand](https://azure.microsoft.com/en-us/azurecon/) and are classified by level and industry role. I hope the sessions prove to be a great learning experience for you. I also hope to work with a few of the new features and write about them for us to use. 
+I hope you had a chance to watch or attend [AzureCon](https://azure.microsoft.com/en-us/azurecon/) lately. If you watch the keynotes, you would be overwhelmed by tons of great announcements that were made. All the sessions are available [on demand](https://azure.microsoft.com/en-us/azurecon/) and are classified by level and industry role. I hope the sessions prove to be a great learning experience for you. I also hope to work with a few of the new features and write about them for us to use.
 
 What I would like to discuss today is about a nifty feature of [Logic App](https://azure.microsoft.com/en-in/services/app-service/logic/).  You can extend your [Logic App](https://azure.microsoft.com/en-in/services/app-service/logic/) workflow by adding Web APIs or [API Apps](https://azure.microsoft.com/en-in/services/app-service/api/) in it. This feature gives you complete control over your application business logic and gives you freedom to only write code for any custom transformation or data manipulation which might not be available out of the box and rely on the various [Logic App connectors](https://azure.microsoft.com/en-in/documentation/articles/app-service-logic-connectors-list/) for the rest of the data flow. This combination of Logic App connectors (which are actually API Apps) and your own API Apps can solve many integration scenarios.
 
@@ -52,7 +52,7 @@ In Visual Studio create a new API App from ASP.net Web Project Template (require
 
 Add a new class `OneDriveConnectorRequest` in the Models folder and write the following code in it. As you might have already guessed, this is the same format in which OneDrive connector provides its output.
 
-~~~CS 
+```CS
 public class OneDriveConnectorRequest
 {
     public string FileName { get; set; }
@@ -61,11 +61,11 @@ public class OneDriveConnectorRequest
     public object FileSizeInBytes { get; set; }
     public string FilePath { get; set; }
 }
-~~~
+```
 
 Next, replace the template code in Values controller with the following code. This code will place the OneDrive connector output in a local variable and expose that data formatted as HTML for Office365 connector, which we will add soon.
 
-~~~CS 
+```CS
 public class ValuesController : ApiController
 {
     private static OneDriveConnectorRequest[] files;
@@ -88,7 +88,7 @@ public class ValuesController : ApiController
         files = value;
     }
 }
-~~~
+```
 
 Its time to publish your API. Right click on your project and click on **Publish**. Select **Microsoft Azure API App** from the menu and follow the steps to create a new API App and subsequently deploy the App to Azure.
 

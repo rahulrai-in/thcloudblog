@@ -1,7 +1,7 @@
 ﻿+++
 author = "Rahul Rai"
 categories = ["azure", "networking"]
-date = "2015-08-10T17:04:47+10:00"
+date = "2015-08-10T00:00:00"
 draft = false
 tags = ["github", "remoteapp", "azure remoteapp", "windows application", "desktop", "mobile workforce", "reporting", "report", "azure sql database", "sql azure", "virtual machine", "vm"]
 title = "Building a Reporting Application with Microsoft Azure RemoteApp"
@@ -29,8 +29,8 @@ The sample application that we will build is a single form WPF application with 
 
 1.  Create an empty [Microsoft Azure SQL Database](http://azure.microsoft.com/en-in/services/sql-database/) in your Azure account by following the steps mentioned [here](https://azure.microsoft.com/en-in/documentation/articles/sql-database-get-started/). Make sure that you have configured the firewall rules properly.
 2.  Copy the database [connection string](https://azure.microsoft.com/en-in/documentation/articles/sql-database-dotnet-how-to-use/) from the portal.
-3.  Use the connection string to populate the database with EmployeeSalary table by publishing the database project provided in the sample (take help of steps mentioned [here](https://msdn.microsoft.com/en-us/library/hh272687(v=vs.103).aspx)).
-4.  Add some sample data to the EmployeeSalary table that you just created. I generally use Server Explorer available in VS itself as explained [here](https://msdn.microsoft.com/en-us/library/hh272699(v=vs.103).aspx).
+3.  Use the connection string to populate the database with EmployeeSalary table by publishing the database project provided in the sample (take help of steps mentioned [here](<https://msdn.microsoft.com/en-us/library/hh272687(v=vs.103).aspx>)).
+4.  Add some sample data to the EmployeeSalary table that you just created. I generally use Server Explorer available in VS itself as explained [here](<https://msdn.microsoft.com/en-us/library/hh272699(v=vs.103).aspx>).
 5.  Paste the connection string in connection strings section of App.config file of RemoteAppDemo project.
 6.  Start the RemoteAppDemo project on your local system. You should be able to see a screen that looks likes this:
 
@@ -52,7 +52,7 @@ As a note, I would like to mention that if you want to migrate your applications
 
 The environment is pretty raw at the moment, you would need to install ReportViewer 14 by adding it as a [prerequisite](https://msdn.microsoft.com/en-us/library/8st7th1x.aspx) in ClickOnce deployment or by installing it from Microsoft Download Center. You would also need to make sure that correct .net framework is available on the server. One thing that tripped me is that SQL Server CLR Types were missing from the server which you can install from [here](http://www.microsoft.com/en-in/download/details.aspx?id=29065). Run your application within the VM to see if everything is still intact.
 
-Now we just need to supply image of this VM to Azure RemoteApp. Navigate to the desktop on the VM and search for ValidateRemoteAppImage.ps script. Click to execute the script and proceed through the steps to validate server image and [sysprep](https://technet.microsoft.com/en-us/library/cc721940(v=ws.10).aspx) it. Following are the steps to create and configure your RemoteApp (if these steps change, refer this [link](https://azure.microsoft.com/en-us/documentation/articles/remoteapp-create-cloud-deployment/)):
+Now we just need to supply image of this VM to Azure RemoteApp. Navigate to the desktop on the VM and search for ValidateRemoteAppImage.ps script. Click to execute the script and proceed through the steps to validate server image and [sysprep](<https://technet.microsoft.com/en-us/library/cc721940(v=ws.10).aspx>) it. Following are the steps to create and configure your RemoteApp (if these steps change, refer this [link](https://azure.microsoft.com/en-us/documentation/articles/remoteapp-create-cloud-deployment/)):
 
 1.  In the management portal, go to the RemoteApp page.
 2.  Click **New > Quick Create**.
@@ -77,11 +77,11 @@ We are done. Ask your users to download RemoteApp client for their phones, table
 
 Enjoy their WOWs!! Here are some screenshots from my devices.
 
-*   Desktop and Tablet (Windows)
+- Desktop and Tablet (Windows)
 
 {{< img src="/desktop.png" alt="Desktop" >}}
 
-*   Phone (Windows)
+- Phone (Windows)
 
 {{< img src="/wp_ss0150810_0001.jpg" alt="Phone" >}}
 

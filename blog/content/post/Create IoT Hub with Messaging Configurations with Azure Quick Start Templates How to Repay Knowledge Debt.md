@@ -1,7 +1,7 @@
 +++
 author = "Rahul Rai"
 categories = ["azure", "internet of things"]
-date = "2016-06-23T17:04:47+10:00"
+date = "2016-06-23T00:00:00"
 draft = false
 tags = ["resource manager", "debt", "blog", "github"]
 title = "Create IoT Hub with Messaging Configurations with Azure Quick Start Templates & How to Repay Knowledge Debt"

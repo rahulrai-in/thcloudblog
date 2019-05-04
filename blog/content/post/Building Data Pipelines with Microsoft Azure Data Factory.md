@@ -1,7 +1,7 @@
 +++
 author = "Rahul Rai"
 categories = ["azure", "analytics"]
-date = "2015-10-25T17:04:47+10:00"
+date = "2015-10-25T00:00:00"
 draft = false
 tags = ["github", "sample", "linked service", "etl", "gateway", "json", "sql", "file", "copy activity", "dataset", "table"]
 title = "Building Data Pipelines with Microsoft Azure Data Factory"
@@ -34,7 +34,7 @@ Now that we have an understanding of what Data Factory is, it is a good time to 
 ## Download The Code Sample
 
 The complete code for the sample we are going to build is available for download here. {{< sourceCode src="https://github.com/rahulrai-in/integrationfactory">}}
- At this point you should download a copy of it. Although, I wrote the code using Data Factory SDK for Visual Studio (available by searching for **Microsoft Azure DataFactory Tools for Visual Studio** in extensions gallery), the Data Factory IDE is already embedded in the Azure management portal, therefore using Visual Studio is not a necessity. The IDE provides support for validating the JSON files on build and uploading them to your Data Factory on publish and is good for keeping artifacts in source control, sharing code etc. and therefore should be used for any code that you expect to move to production.
+At this point you should download a copy of it. Although, I wrote the code using Data Factory SDK for Visual Studio (available by searching for **Microsoft Azure DataFactory Tools for Visual Studio** in extensions gallery), the Data Factory IDE is already embedded in the Azure management portal, therefore using Visual Studio is not a necessity. The IDE provides support for validating the JSON files on build and uploading them to your Data Factory on publish and is good for keeping artifacts in source control, sharing code etc. and therefore should be used for any code that you expect to move to production.
 
 ## Preparing The Database and The Test File
 
@@ -60,22 +60,22 @@ Now, in your Visual Studio create a new solution and add add an empty data facto
 
 Right click on **LinkedService** folder and add **Azure SQL Linked Service** and **On Premises FileSystem Linked Service**. A linked service contains information necessary for your Data Factory to connect to an external service. As the name suggests, **Azure SQL Linked Service** contains connection data for Azure SQL Database. Put the following code in the **Azure SQL Linked Service** JSON file:
 
-~~~JavaScript 
+```JavaScript
 {
     "$schema": "http://datafactories.schema.management.azure.com/schemas/2015-08-01/Microsoft.DataFactory.LinkedService.json",
     "name": "AzureSqlLinkedService",
     "properties": {
         "type": "AzureSqlDatabase",
-        "typeProperties": { 
+        "typeProperties": {
             "connectionString": "<<Azure SQL Database Connection string>>"
         }
     }
 }
-~~~
+```
 
 Similarly, the **On Premises FileSystem Linked Service** contains information for connecting to your system through the gateway that you just installed. Replace the template code inside **On Premises FileSystem Linked Service** with the following code.
 
-~~~JavaScript 
+```JavaScript
 {
   "$schema": "http://datafactories.schema.management.azure.com/schemas/2015-08-01/Microsoft.DataFactory.LinkedService.json",
   "name": "OnPremisesFileSystemLinkedService",
@@ -89,11 +89,11 @@ Similarly, the **On Premises FileSystem Linked Service** contains information fo
     }
   }
 }
-~~~
+```
 
 This code contains information about the system that Data Factory pipeline needs to connect to and credentials that it can use to get the resource that it uses. Now, we need to create tables corresponding to the on premises file and Azure SQL Database so that data can be copied between the two tables through a copy activity, which we will configure soon. Right click on the **Tables** folder and select **Add** new **OnPremises FileShare Location**. Replace the code within the template with the following code.
 
-~~~JavaScript 
+```JavaScript
 {
   "$schema": "http://datafactories.schema.management.azure.com/schemas/2015-08-01/Microsoft.DataFactory.Table.json",
   "name": "PremiseSystemDataTable",
@@ -167,13 +167,13 @@ This code contains information about the system that Data Factory pipeline needs
     }
   }
 }
-~~~
+```
 
 This code specifies path to the folder which contains the file which we want to upload and the associated linked service. Notice that we have specified replacement text for year, month and day so that a different file is picked every time the pipeline is executed. We have also specified the structure of the file and availability of the table. The availability element tells the ADF runtime how often to expect new slice data to be available: in this case, once per day. It makes sense to set availability to correspond to the expected timing when the external process will actually drop data into the blob store: otherwise the copy activity may execute unnecessarily looking for data that is not, in fact, available.
 
 Next, add new **Azure SQL** table in the tables folder and replace the code with the following code.
 
-~~~JavaScript 
+```JavaScript
 {
   "$schema": "http://datafactories.schema.management.azure.com/schemas/2015-08-01/Microsoft.DataFactory.Table.json",
   "name": "AzureSQLDataTable",
@@ -219,13 +219,13 @@ Next, add new **Azure SQL** table in the tables folder and replace the code with
     }
   }
 }
-~~~
+```
 
 This code specifies the table structure with the same name of columns as specified previously. This ensures that we don't have to apply any transformation to map the two tables (although you can). It also specifies the name of table to which we need to store data.
 
 The last thing we need to do is to copy data between these two data stores. Data Factory provides an activity to copy data between two data stores. The store can be either a cloud or on-premises store. It consumes one input and produces one output. The **type** of the activity should set to **CopyActivity** in the pipeline JSON definition. Right click on the pipeline folder and Add new **Copy Data Pipeline** to the project. Replace the template code with the following code.
 
-~~~JavaScript 
+```JavaScript
 {
     "name": "CopyActivityFileToDatabase",
     "properties": {
@@ -271,7 +271,7 @@ The last thing we need to do is to copy data between these two data stores. Data
         "hubName": "integrationfactory_hub"
     }
 }
-~~~
+```
 
 This code links the two tables and specifies the type of the two data stores. Finally, this activity specifies the scheduler interval and start and end date of the activity. Note that we haven't specified any SQL statement to push data into the database or any file operations to pull data from the on premises directory. All such operations have been taken care of by the activity. Your solution should resemble the following once you are done.
 

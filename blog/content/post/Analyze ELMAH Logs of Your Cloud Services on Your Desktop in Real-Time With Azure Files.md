@@ -1,7 +1,7 @@
 +++
 author = "Rahul Rai"
 categories = ["azure", "storage"]
-date = "2016-05-04T17:04:47+10:00"
+date = "2016-05-04T00:00:00"
 draft = false
 tags = ["azure storage", "cloud service", "file", "github", "storage", "webapp", "website", "mount", "file share", "smb"]
 title = "Analyze ELMAH Logs of Your Cloud Services on Your Desktop in Real-Time With Azure Files"
@@ -15,13 +15,13 @@ slug = "analyze-elmah-logs-of-your-cloud-services-on-your-desktop-in-real-time-w
 
 [ELMAH](https://msdn.microsoft.com/en-us/library/aa479332.aspx?f=255&MSPPError=-2147217396) is an awesome error logging module which is used in several high profile applications such as [Stack Overflow](http://blog.codinghorror.com/exception-driven-development/). Once ELMAH is installed into your [ASP.NET web application](https://www.nuget.org/packages/elmah/) or [ASP.NET MVC web application](https://www.nuget.org/packages/Elmah.MVC/) through Nuget, you get the following facilities without changing a single line of your code:
 
-*   Logging of nearly all unhandled exceptions.
-*   A web page to remotely view the entire log of recoded exceptions.
-*   A web page to remotely view the full details of any one logged exception.
-*   In many cases, you can review the original [yellow screen of death](http://en.wikipedia.org/wiki/Yellow_Screen_of_Death#ASP.NET) that ASP.NET generated for a given exception, even with <tt>customErrors</tt> mode turned off.
-*   An e-mail notification of each error at the time it occurs.
-*   An RSS feed of the last 15 errors from the log.
-*   A number of backing storage implementations for the log, including in-memory, [Microsoft SQL Server](http://www.microsoft.com/sql/) and several [contributed by the community](http://groups.google.com/group/elmah/files).
+- Logging of nearly all unhandled exceptions.
+- A web page to remotely view the entire log of recoded exceptions.
+- A web page to remotely view the full details of any one logged exception.
+- In many cases, you can review the original [yellow screen of death](http://en.wikipedia.org/wiki/Yellow_Screen_of_Death#ASP.NET) that ASP.NET generated for a given exception, even with <tt>customErrors</tt> mode turned off.
+- An e-mail notification of each error at the time it occurs.
+- An RSS feed of the last 15 errors from the log.
+- A number of backing storage implementations for the log, including in-memory, [Microsoft SQL Server](http://www.microsoft.com/sql/) and several [contributed by the community](http://groups.google.com/group/elmah/files).
 
 ## Objective
 
@@ -29,11 +29,11 @@ We will build a simple Azure Cloud Service project with ELMAH integrated into it
 
 ## Code
 
-Download the source code of this sample by clicking on the button below.  {{< sourceCode src="https://github.com/rahulrai-in/persistentfilelogging" >}}
+Download the source code of this sample by clicking on the button below. {{< sourceCode src="https://github.com/rahulrai-in/persistentfilelogging" >}}
 
 ## Let's Start
 
-*   **Create a Storage Account**
+- **Create a Storage Account**
 
 The first step is to create an Azure storage account. Navigate to the portal and create a new storage account. Click on **Files** to see the list of file shares associated with this account.
 
@@ -45,11 +45,11 @@ In the list of file shares blade, create a new file share by setting a name and 
 
 Copy this command and replace the drive letter and the storage account access key with actual values. When you execute this command from an SMB 3.0 supported windows desktop machine (Windows 8+), it will create a mounted storage drive with the specified drive letter. For this sample, this is what the command is for me.
 
-~~~CS 
+```CS
 net use Z: \\smb3share.file.core.windows.net\myfileshare /u:smb3share [storage account access key]
-~~~
+```
 
-*   **Create a Cloud Service Application**
+- **Create a Cloud Service Application**
 
 We will now create and deploy an Azure Cloud Service that will save ELAMH logs to a file storage location. We will mount the previously provisioned file store on the cloud service VM so that ELMAH can write files to it using its inbuilt backing store implementation without requiring us to make any changes to ELMAH or the application.
 
@@ -63,18 +63,18 @@ Now, add a web role in the solution and name it **LoggingWebApplication**.
 
 In the project template that unfolds, select MVC as the project type and install ELMAH.MVC nuget package in the project. Enable ELMAH to log errors to file store and allow remote access to ELMAH logs (not recommended for production deployments) through the following configuration in web config.
 
-~~~XML 
+```XML
 <elmah>
   <security allowRemoteAccess="true"/>
   <errorLog type="Elmah.XmlFileErrorLog, Elmah" logPath="Z:/temp/Activity"/>
 </elmah>
-~~~
+```
 
 Once completed, throw an error from any controller in the application so that you can test the application after you deploy it.
 
 Now we need to mount the previously provisioned Azure File storage on the VM. The Azure Storage team has blogged about a way you can do so for the Cloud Services [here](https://blogs.msdn.microsoft.com/windowsazurestorage/2014/05/26/persisting-connections-to-microsoft-azure-files/). The code essentially pinvokes `WNetAddConnection2` to establish a mapping between a local drive letter and an Azure File share. To do so, replace the code in the **WebRole.cs** file with the following code and replace the placeholder texts from the `MountShare` function call.
 
-~~~CS 
+```CS
 public class WebRole : RoleEntryPoint
 {
     public override bool OnStart()
@@ -131,7 +131,7 @@ public class WebRole : RoleEntryPoint
         RESOURCETYPE_DISK = 1,
     };
 }
-~~~
+```
 
 We are done with the code. Let's deploy the application to Azure. Create an Azure Cloud Service in the Azure portal that will host the application.
 
@@ -141,7 +141,7 @@ Deploy the application to the Cloud Service that you created and let it log some
 
 {{< img src="/Application Error ELMAH.png" alt="Application Error ELMAH" >}}
 
-*   **View ELMAH Logs on Your Desktop**
+- **View ELMAH Logs on Your Desktop**
 
 The last step is to mount the previously provisioned Azure File storage on your desktop and view the application logs. Do you remember the connection command that we copied from the storage account that we provisioned earlier? Its time to use that. Start the command prompt and execute the `net use` command. Once the command successfully completes, you will find the Azure File store mounted on your system. One of the frequently encountered gotchas is that your firewall and ISP should allow traffic to pass through SMB over TCP port - 445.
 

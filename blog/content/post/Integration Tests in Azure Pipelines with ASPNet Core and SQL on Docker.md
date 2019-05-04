@@ -1,7 +1,7 @@
 ﻿+++
 author = "Rahul Rai"
 categories = ["azure", "devops"]
-date = "2019-04-17T17:04:47+10:00"
+date = "2019-04-17T00:00:00"
 draft = false
 tags = ["dotnetcore", "devops", "docker", "sql", "tests"]
 title = "Integration Tests in Azure Pipelines with ASP.Net Core and SQL on Docker"

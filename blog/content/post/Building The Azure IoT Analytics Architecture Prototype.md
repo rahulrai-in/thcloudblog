@@ -1,7 +1,7 @@
 +++
 author = "Rahul Rai"
 categories = ["azure", "internet of things", "analytics"]
-date = "2016-04-27T17:04:47+10:00"
+date = "2016-04-27T00:00:00"
 draft = false
 tags = ["azure", "github", "webjob", "stream analytics", "service bus", "gateway", "device", "azure function", "function", "data lake", "iot hub", "power bi", "sensor", "resource group", "policy", "shared access", "simulator"]
 title = "Building The Azure IoT Analytics Architecture Prototype"

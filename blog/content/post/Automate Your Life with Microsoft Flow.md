@@ -1,7 +1,7 @@
 ﻿+++
 author = "Rahul Rai"
 categories = ["azure", "automation"]
-date = "2016-05-16T17:04:47+10:00"
+date = "2016-05-16T00:00:00"
 draft = false
 tags = ["http header", "logic", "facebook", "ifttt", "condition", "post", "automation", "swagger", "api", "graph", "social"]
 title = "Automate Your Life with Microsoft Flow"
@@ -23,14 +23,15 @@ Build a Flow from scratch that responds to congratulatory Facebook posts from fr
 
 I don’t want to deviate from the subject of this post, that is Microsoft Flow. Therefore, it would be great if you could get yourself familiar with performing the following activities.
 
-*   [Create a new Facebook App and get your App Id and secret.](https://developers.facebook.com/docs/apps/register)
-*   [Get your own Facebook user identifier](http://findmyfbid.com/).
-*   Get user access token for your app. You can use [Graph API Explorer](https://developers.facebook.com/tools/explorer/) tool to do this. Remember that the token that you generate should give you access to the following User Data Permissions.
-	*   publish_actions: to respond to posts.
-	*   user_posts: to read posts from a user’s timeline.
+- [Create a new Facebook App and get your App Id and secret.](https://developers.facebook.com/docs/apps/register)
+- [Get your own Facebook user identifier](http://findmyfbid.com/).
+- Get user access token for your app. You can use [Graph API Explorer](https://developers.facebook.com/tools/explorer/) tool to do this. Remember that the token that you generate should give you access to the following User Data Permissions.
 
-*   [Extend expiry time of user access token](https://developers.facebook.com/docs/facebook-login/access-tokens/expiration-and-extension).
-*   [Create and publish an Azure API App](https://azure.microsoft.com/en-us/documentation/articles/app-service-api-dotnet-get-started/).
+  - publish_actions: to respond to posts.
+  - user_posts: to read posts from a user’s timeline.
+
+- [Extend expiry time of user access token](https://developers.facebook.com/docs/facebook-login/access-tokens/expiration-and-extension).
+- [Create and publish an Azure API App](https://azure.microsoft.com/en-us/documentation/articles/app-service-api-dotnet-get-started/).
 
 ## Let’s Go
 
@@ -44,13 +45,13 @@ In the flow designer, you can create a Flow by linking various actions and condi
 
 You would need to connect Facebook to Microsoft Flow by clicking on **Sign in to Facebook** and granting permissions on your Facebook account to Microsoft Flow. Flow can supply the information it receives from any previous actions to the following actions. Through the trigger, till now you will have details of the post that was posted on your timeline. Now you need to see whether this post contains a congratulatory message. To evaluate your message, add a condition to your Flow that checks whether the post contains any of the congratulatory texts such as birthday, congratulations or congrats (you may add more words to this list). You would need to open the **advanced editor** view of the condition to write this condition (available at the bottom of the condition). Write the following condition in the editor.
 
-~~~SQL
+```SQL
 @or(or(contains(toLower(triggerBody()['message']), 'birthday'), contains(toLower(triggerBody()['message']), 'congratulations')), contains(toLower(triggerBody()['message']), 'congrats'))
-~~~
+```
 
 {{< img src="/Add Condition To Activity.png" alt="Add Condition To Activity" >}}
 
-The condition will have two branches attached to it corresponding to the output of the condition which would be either true or false. Depending on the output of the condition, the remainder of the workflow will execute. We don’t want anything to happen if the condition evaluates to false. However, if the post is indeed a congratulatory post, we need to extract the later half of the **Post Item Post Id** parameter (an underscore-separated value) that we received from the Facebook trigger. The **Post Item Post Id** parameter contains two values separated by an underscore (_). The **Post Id** value of this parameter helps Facebook API identify the post that we want to execute our action against. Since **Post Id** is not available to us as a parameter value, we can build and deploy a simple [Azure API App](https://azure.microsoft.com/en-us/documentation/articles/app-service-api-dotnet-get-started/) with a single function that takes an underscore delimited string (**Post Item Post Id**) as input and returns the last part (**Post Id**) as output. In the following screenshot, you can find the Swagger metadata of the API App that I published to Azure.
+The condition will have two branches attached to it corresponding to the output of the condition which would be either true or false. Depending on the output of the condition, the remainder of the workflow will execute. We don’t want anything to happen if the condition evaluates to false. However, if the post is indeed a congratulatory post, we need to extract the later half of the **Post Item Post Id** parameter (an underscore-separated value) that we received from the Facebook trigger. The **Post Item Post Id** parameter contains two values separated by an underscore (\_). The **Post Id** value of this parameter helps Facebook API identify the post that we want to execute our action against. Since **Post Id** is not available to us as a parameter value, we can build and deploy a simple [Azure API App](https://azure.microsoft.com/en-us/documentation/articles/app-service-api-dotnet-get-started/) with a single function that takes an underscore delimited string (**Post Item Post Id**) as input and returns the last part (**Post Id**) as output. In the following screenshot, you can find the Swagger metadata of the API App that I published to Azure.
 
 {{< img src="/API App To Return Post Id_4.png" alt="API App To Return Post Id" >}}
 

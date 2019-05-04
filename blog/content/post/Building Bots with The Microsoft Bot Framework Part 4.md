@@ -1,7 +1,7 @@
 ﻿+++
 author = "Rahul Rai"
 categories = ["azure", "bot-framework"]
-date = "2017-10-22T17:04:47+10:00"
+date = "2017-10-22T00:00:00"
 draft = false
 tags = ["bot", "azure", "learning"]
 title = "Building Bots with The Microsoft Bot Framework - Part 4"

@@ -1,7 +1,7 @@
 +++
 author = "Rahul Rai"
 categories = ["azure", "machine learning"]
-date = "2015-11-21T17:04:47+10:00"
+date = "2015-11-21T00:00:00"
 draft = false
 tags = ["office", "office 365", "github", "ml", "cortana", "add in", "outlook", "machine learning", "happy mail finder"]
 title = "Analyzing Sentiment of Your Emails with Azure Text Analytics Service"
@@ -18,9 +18,9 @@ In a nutshell, if you give a piece of text to the Azure ML Text Analytics servic
 1. Obtain a large dataset of text with sentiment scores (must be easy for Microsoft).
 2. Split text into words and apply stemming (converting word to its root form) e.g. fishing, fisher or fished is reduced to fish.
 3. Create features from words. Some of the key features used are:
-	*   [N-Grams](https://en.wikipedia.org/wiki/N-gram): Generate all possible combinations of n consecutive words e.g. for "we are learning ML" and n=2, the sequence would be "we are", "are learning", "learning ML".
-	*   [Part-of-speech tagging](http://en.wikipedia.org/wiki/Part-of-speech_tagging): It is the process of identifying words belonging to a particular part of speech. A simplified form of this is identification of words as nouns, verbs, adjectives etc.
-	*   [Word embedding](http://en.wikipedia.org/wiki/Word_embedding): It is the process of mapping syntactically similar words close to each other e.g. car and bike are closer to each other than are car and office.
+   - [N-Grams](https://en.wikipedia.org/wiki/N-gram): Generate all possible combinations of n consecutive words e.g. for "we are learning ML" and n=2, the sequence would be "we are", "are learning", "learning ML".
+   - [Part-of-speech tagging](http://en.wikipedia.org/wiki/Part-of-speech_tagging): It is the process of identifying words belonging to a particular part of speech. A simplified form of this is identification of words as nouns, verbs, adjectives etc.
+   - [Word embedding](http://en.wikipedia.org/wiki/Word_embedding): It is the process of mapping syntactically similar words close to each other e.g. car and bike are closer to each other than are car and office.
 4. Once the features have been identified, the classifier is trained with the features.
 
 ## Before You Start
@@ -37,8 +37,8 @@ The entire source code of the application is available on GitHub. {{< sourceCode
 
 {{< img src="/HappyMailFinder Solution.png" alt="HappyMailFinder Solution" >}}
 
-*   **HappyMailFinder** is the project that contains the application manifest file. You should run this project to debug your add-in.
-*   **HappyMailFinderWeb** is a web project that contains web pages that are hosted inside Office client applications.
+- **HappyMailFinder** is the project that contains the application manifest file. You should run this project to debug your add-in.
+- **HappyMailFinderWeb** is a web project that contains web pages that are hosted inside Office client applications.
 
 ## Go Time
 
@@ -56,7 +56,7 @@ On the next screen, select the options that make sure your app appears every tim
 
 In the solution that unfolds, navigate to **AppRead** > **Home.html** and replace the markup inside `<body>` tag with the following HTML code. This markup defines the appearance of our add-in.
 
-~~~XML 
+```XML
 <div id="content-main">
     <div class="padding">
         <p><strong>Hi, I analyzed the subject line of your mail!</strong></p>
@@ -72,11 +72,11 @@ In the solution that unfolds, navigate to **AppRead** > **Home.html** and replac
         </table>
     </div>
 </div>
-~~~
+```
 
 To invoke the **Text Analytics** service and display the sentiment scores in the web page that we modified, navigate to **AppRead** > **Home.js** and modify the `displayItemDetails` function and also add two more functions.
 
-~~~JavaScript 
+```JavaScript
 function displayItemDetails() {
     var item = Office.cast.item.toItemRead(Office.context.mailbox.item);
     var encodedSubject = encodeURIComponent(item.subject);
@@ -108,7 +108,7 @@ function getScoreAsync(encodedSubject, callback) {
     xmlHttp.setRequestHeader("Accept", "application/json");
     xmlHttp.send(null);
 }
-~~~
+```
 
 The mechanism is pretty straightforward. The function `displayItemDetails` retrieves the subject of the email and invokes the function `getScoreAsync`. The function `getScoreAsync` in turn sends an HTTP GET request, authorized with your base 64 encoded key, to the Text Analytics service and sends the result to the callback function `displayResult`. The callback function `displayResult` then prints the output. It is fairly reasonable to assume that scores less than **0.4** denote negative sentiments and scores greater than **0.65** denote positive sentiments.
 

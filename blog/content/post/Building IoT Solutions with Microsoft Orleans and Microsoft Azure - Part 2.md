@@ -1,7 +1,7 @@
 ﻿+++
 author = "Rahul Rai"
 categories = ["azure", "internet of things"]
-date = "2015-09-20T17:04:47+10:00"
+date = "2015-09-20T00:00:00"
 draft = false
 tags = ["actor", "github", "internet of things", "silo", "storage", "worker role", "cluster", "azure storage", "device", "distributed system", "grain", "experiment", "sample", "aggregator", "decode", "microservice", "web role", "http amqp", "color", "host", "office"]
 title = "Building IoT Solutions with Microsoft Orleans and Microsoft Azure - Part 2"

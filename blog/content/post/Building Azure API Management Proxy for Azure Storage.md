@@ -1,7 +1,7 @@
 +++
 author = "Rahul Rai"
 categories = ["azure", "app-service"]
-date = "2016-03-21T17:04:47+10:00"
+date = "2016-03-21T00:00:00"
 draft = false
 tags = ["blob", "console", "decode", "aws", "amazon", "apiphany", "jwt", "json web token", "rest", "operation", "http header", "unix", "token"]
 title = "Building Azure API Management Proxy for Azure Storage"
@@ -61,7 +61,7 @@ In the applicable policy we want to define two operations:
 
 The following statements in the policy specify the headers that should be added to HTTP Request when it is forwarded to the back-end Azure Blob Storage service.
 
-~~~XML 
+```XML
 <set-header name="date" exists-action="override">
     <value>@(context.Variables.GetValueOrDefault<string>("UTCNow"))</value>
 </set-header>
@@ -91,7 +91,7 @@ The following statements in the policy specify the headers that should be added 
 			}
       </value>
 </set-header>
-~~~
+```
 
 Note that we can write simple C# expressions in the policy definition. The [Policy Reference Guide](https://azure.microsoft.com/en-in/documentation/articles/api-management-policy-reference/) specifies what is supported and what is not. We have used the context variable in the expression which is implicitly available to the code inside the policy. The code used to compose the authorization header is taken from [Azure Storage Authentication](https://msdn.microsoft.com/en-in/library/azure/dd179428.aspx) documentation.
 
@@ -99,7 +99,7 @@ Note that we can write simple C# expressions in the policy definition. The [Poli
 
 We will use JWT passed in a request header to the API to validate the incoming request and authorize the access based on the value of the `canDownload` claim present in the token. The following declaration in the policy helps achieve this objective.
 
-~~~XML 
+```XML
 <validate-jwt header-name="Token" failed-validation-httpcode="401" failed-validation-error-message="Unauthorized">
     <issuer-signing-keys>
         <key>@(context.Variables.GetValueOrDefault<string>("SigningKey"))</key>
@@ -110,11 +110,11 @@ We will use JWT passed in a request header to the API to validate the incoming r
         </claim>
     </required-claims>
 </validate-jwt>
-~~~
+```
 
 The above mentioned declaration helps the API decode the token with the key mentioned in the `key` element. Note that the API expects the token to arrive as value in the HTTP request header named `Token`. The API, then checks for a claim named `canDownload` with value `true` to be present in the token. Following is the complete code listing for the policy.
 
-~~~XML 
+```XML
 <policies>
     <inbound>
         <set-variable name="APIVersion" value="2012-02-12" />
@@ -172,7 +172,7 @@ The above mentioned declaration helps the API decode the token with the key ment
         <base />
     </on-error>
 </policies>
-~~~
+```
 
 ## Testing The API
 
@@ -188,9 +188,9 @@ There is a nice little introduction of JWT present [here](http://jwt.io/introduc
 
 JSON Web Tokens consist of three parts separated by dots (`.`), which are:
 
-*   Header: which typically consists of two parts: the type of the token, which is JWT, and the hashing algorithm such as HMAC SHA256 or RSA
-*   Payload: which contains the JSON formatted claims.
-*   Signature: To create the signature part you have to take the encoded header, the encoded payload, a secret, the algorithm specified in the header, and sign that.
+- Header: which typically consists of two parts: the type of the token, which is JWT, and the hashing algorithm such as HMAC SHA256 or RSA
+- Payload: which contains the JSON formatted claims.
+- Signature: To create the signature part you have to take the encoded header, the encoded payload, a secret, the algorithm specified in the header, and sign that.
 
 Therefore, a JWT typically looks like this: **xxxxx.yyyyy.zzzzz**
 

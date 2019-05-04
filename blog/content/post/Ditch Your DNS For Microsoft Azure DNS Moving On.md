@@ -1,7 +1,7 @@
 +++
 author = "Rahul Rai"
 categories = ["azure", "networking"]
-date = "2016-06-04T17:04:47+10:00"
+date = "2016-06-04T00:00:00"
 draft = false
 tags = ["webapp", "name server", "domain name", "dottk", "free", "nagarro", "cname", "external", "custom", "route 53", "comic", "zone", "rahulrai"]
 title = "Ditch Your DNS For Microsoft Azure DNS & Moving On"
@@ -27,39 +27,39 @@ A DNS server can store a set of DNS records for each domain in a [DNS Zone File]
 
 ## Let’s Make It Work
 
-*   Create an Azure [WebApp](http://azure.microsoft.com/en-us/services/app-service/web/) in your subscription using at least the Standard pricing tier so that you can do the name mapping. I created one with the name **azurednssite.azurewebsites.net**.
-*   Head over to a free domain name registrar such as [dottk](http://www.dot.tk/en/index.html) (no personal preference, this was the first link that appeared in my search result). Secure a domain name with the registrar, e.g. **azuredns.tk.** Let your browser tab stay open because we will modify the DNS settings for the domain name that you secured.
-*   In the Azure portal, create a new instance of Azure DNS in your subscription by clicking on **New > Networking >** and then clicking on **DNS Zone.**
-*   Click **Create** to open the DNS Zone blade.
-*   Let’s fill out the values in this blade. You would need to provide a name for the zone (remember Zone File?). This name should be the same as the domain name that you secured. e.g. **azuredns.tk**. The rest of the fields are self-explanatory.
+- Create an Azure [WebApp](http://azure.microsoft.com/en-us/services/app-service/web/) in your subscription using at least the Standard pricing tier so that you can do the name mapping. I created one with the name **azurednssite.azurewebsites.net**.
+- Head over to a free domain name registrar such as [dottk](http://www.dot.tk/en/index.html) (no personal preference, this was the first link that appeared in my search result). Secure a domain name with the registrar, e.g. **azuredns.tk.** Let your browser tab stay open because we will modify the DNS settings for the domain name that you secured.
+- In the Azure portal, create a new instance of Azure DNS in your subscription by clicking on **New > Networking >** and then clicking on **DNS Zone.**
+- Click **Create** to open the DNS Zone blade.
+- Let’s fill out the values in this blade. You would need to provide a name for the zone (remember Zone File?). This name should be the same as the domain name that you secured. e.g. **azuredns.tk**. The rest of the fields are self-explanatory.
 
 {{< img src="/Create DNS Zone.png" alt="Create DNS Zone" >}}
 
-*   Once the zone has provisioned, click on the provisioned instance to see the list of name servers that contain your zone file.
+- Once the zone has provisioned, click on the provisioned instance to see the list of name servers that contain your zone file.
 
 {{< img src="/DNS Name Servers.png" alt="DNS Name Servers" >}}
 
-*   Head over to your domain name management console and supply your own DNS settings rather than using the DNS servers of the domain registrar. I supplied the names of two of the name servers, however, you can add more.
+- Head over to your domain name management console and supply your own DNS settings rather than using the DNS servers of the domain registrar. I supplied the names of two of the name servers, however, you can add more.
 
 {{< img src="/Create Custom DNS Records.png" alt="Create Custom DNS Records" >}}
 
-*   Till now, we have our domain registered in the central registry database and we have instructed the root server to tell the names of name servers to the resolver (read the comic that I previously linked to).
-*   Now all we need to do is bind the custom domain name that we provisioned earlier to our web application. This is done by:
+- Till now, we have our domain registered in the central registry database and we have instructed the root server to tell the names of name servers to the resolver (read the comic that I previously linked to).
+- Now all we need to do is bind the custom domain name that we provisioned earlier to our web application. This is done by:
 
-*   Making an **A** record entry in the zone file. This record maps the hostname to the IP address of the web application.
-*   Making a **CNAME** entry in the zone file to prove our ownership of the domain name.
-*   Making an entry of the provisioned domain name in the web application.
+- Making an **A** record entry in the zone file. This record maps the hostname to the IP address of the web application.
+- Making a **CNAME** entry in the zone file to prove our ownership of the domain name.
+- Making an entry of the provisioned domain name in the web application.
 
-*   To find the IP address to provision the **A** record and the **CNAME** key and value, go to the **Settings** blade of your web app and click on **Custom domains and SSL > Bring External Domains**. Copy the IP address and the verification value of **CNAME** record. See highlighted.
+- To find the IP address to provision the **A** record and the **CNAME** key and value, go to the **Settings** blade of your web app and click on **Custom domains and SSL > Bring External Domains**. Copy the IP address and the verification value of **CNAME** record. See highlighted.
 
 {{< img src="/Getting DNS Records of Web App for Mapping_4.png" alt="Getting DNS Records of Web App for Mapping" >}}
 
-*   Now move over to your DNS zone and add two DNS records as shown below.
+- Now move over to your DNS zone and add two DNS records as shown below.
 
 {{< img src="/Add DNS Record.png" alt="Add DNS Record" >}}
 
-*   Since the provisioning takes effect immediately, you can apply the custom domain name to your web application now. Go to the **Bring External Domains** setting of your application and add the name of the domain that you previously provisioned (**azuredns.tk**) to the list of DNS. Azure will then verify the DNS records to ensure that you are the owner of the domain and apply the domain binding immediately.
-*   Enjoy browsing your WebApp from your browser.
+- Since the provisioning takes effect immediately, you can apply the custom domain name to your web application now. Go to the **Bring External Domains** setting of your application and add the name of the domain that you previously provisioned (**azuredns.tk**) to the list of DNS. Azure will then verify the DNS records to ensure that you are the owner of the domain and apply the domain binding immediately.
+- Enjoy browsing your WebApp from your browser.
 
 {{< img src="/Your Web App with Custom Domain.png" alt="Your Web App with Custom Domain" >}}
 

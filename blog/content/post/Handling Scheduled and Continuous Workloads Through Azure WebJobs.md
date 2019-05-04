@@ -1,7 +1,7 @@
 ﻿+++
 author = "Rahul Rai"
 categories = ["azure", "app service"]
-date = "2015-08-26T17:04:47+10:00"
+date = "2015-08-26T00:00:00"
 draft = false
 tags = ["github", "virtual machine", "vm", "storage", "webjob", "job", "mail", "worker role", "worker", "cron", "webapp", "website", "email", "visual studio", "continuous deployment", "cd", "console", "trigger", "scm", "jobhost"]
 title = "Handling Scheduled and Continuous Workloads Through Azure WebJobs"
@@ -51,13 +51,13 @@ Another point I would like to mention here is that when you deploy a recurring j
 
 Although, you can simply make an application executable or a script run as a WebJob, [WebJobs SDK](https://azure.microsoft.com/en-in/documentation/articles/websites-dotnet-webjobs-sdk/) greatly simplifies certain mundane activities for you and is a great time saver if you want to write a job that works with Azure Storage queues, blobs, and tables, and Service Bus queues. The [WebJobs SDK](https://azure.microsoft.com/en-in/documentation/articles/websites-dotnet-webjobs-sdk/) includes the following components:
 
-*   **NuGet packages**. NuGet packages that you add to a Visual Studio Console Application project provide a framework your code uses to work with the Azure Storage service or Service Bus queues.
+- **NuGet packages**. NuGet packages that you add to a Visual Studio Console Application project provide a framework your code uses to work with the Azure Storage service or Service Bus queues.
 
-*   **Dashboard**. Part of the WebJobs SDK is included in the Azure App Service and provides rich monitoring and diagnostics for programs that use the NuGet packages. You don't have to write code to use these monitoring and diagnostics features.
+- **Dashboard**. Part of the WebJobs SDK is included in the Azure App Service and provides rich monitoring and diagnostics for programs that use the NuGet packages. You don't have to write code to use these monitoring and diagnostics features.
 
 The code for handling typical tasks that work with Azure Storage is simple. In a Console Application, you write methods for the background tasks that you want to execute, and you decorate them with attributes from the WebJobs SDK. Your `Main` method creates a `JobHost` object that coordinates the calls to methods you write. The [WebJobs SDK](https://azure.microsoft.com/en-in/documentation/articles/websites-dotnet-webjobs-sdk/) framework knows when to call your methods based on the WebJobs SDK attributes you use in them. The `JobHost` object is a container for a set of background functions. The `JobHost` object monitors the functions, watches for events that trigger them, and executes the functions when trigger events occur. You call a `JobHost` method to indicate whether you want the container process to run on the current thread or a background thread. In the example, the `RunAndBlock` method runs the process continuously on the current thread. You can supply the connection strings to to use in the configuration file of the associated WebApp and bind the strings to job host configuration in the code (while debugging, you need to provide the connection strings in the configuration file of the console application). Following is a sample of how to do that:
 
-~~~CS 
+```CS
 private static void Main()
 {
     var configuration = new JobHostConfiguration
@@ -68,13 +68,13 @@ private static void Main()
     var host = new JobHost(configuration);
     host.RunAndBlock();
 }
-~~~
+```
 
 You can use the inbuilt triggers and binders to invoke functions in your WebJob. The trigger and binder features of the WebJobs SDK greatly simplify the code you have to write to work with Azure Storage and Service Bus queues. The low-level code required to handle queue and blob processing is done for you by the [WebJobs SDK](https://azure.microsoft.com/en-in/documentation/articles/websites-dotnet-webjobs-sdk/) framework -- the framework creates queues that don't exist yet, opens the queue, reads queue messages, deletes queue messages when processing is completed, creates blob containers that don't exist yet, writes to blobs, and so on.
 
 The [WebJobs SDK](https://azure.microsoft.com/en-in/documentation/articles/websites-dotnet-webjobs-sdk/) provides many ways to work with Azure Storage. For example, if the parameter you decorate with the `QueueTrigger` attribute is a byte array or a custom type, it is automatically deserialized from JSON. And you can use a `BlobTrigger` attribute to trigger a process whenever a new blob is created in an Azure Storage account. (Note that while `QueueTrigger` finds new queue messages within a few seconds, `BlobTrigger` can take up to 20 minutes to detect a new blob. `BlobTrigger` scans for blobs whenever the `JobHost` starts and then periodically checks the Azure Storage logs to detect new blobs.). Following is how I use a trigger to capture New Post messages and get references to the and blog table and subscriber table. You can use Console Output functions to write messages to log and the WebJob dashboard.
 
-~~~CS 
+```CS
 public static void ProcessNewPostQueueMessage(
            [QueueTrigger(NewPostQueue)] string message,
            [Table(BlogTable)] CloudTable blogTable,
@@ -83,7 +83,7 @@ public static void ProcessNewPostQueueMessage(
             Console.Out.WriteLine("New post message captured {0}", message);
             //// Code Left out for brevity.
        }
-~~~
+```
 
 I would like to point out that you don’t need to keep renewing lease on the message. The SDK handles that automatically if your function takes longer than the time for which SDK has acquired lease on the message. Also, you can get the recent logs on your WebJob dashboard. You would find a link to get to the Azure Web Jobs Dashboard to the right of your job, but the format for the URL to access is this: [https://YOURSITE.scm.azurewebsites.net/azurejobs](https://yoursite.scm.azurewebsites.net/azurejobs). You'll need to enter your same credentials you've used for Azure deployment.
 

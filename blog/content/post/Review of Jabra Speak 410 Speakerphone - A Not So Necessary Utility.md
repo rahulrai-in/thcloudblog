@@ -1,7 +1,7 @@
 +++
 author = "Rahul Rai"
 categories = ["tools & gadgets"]
-date = "2016-01-25T17:04:47+10:00"
+date = "2016-01-25T00:00:00"
 draft = false
 tags = ["azure", "dhl", "duty", "jabra", "phone"]
 title = "Review of Jabra Speak 410 Speakerphone - A Not So Necessary Utility"

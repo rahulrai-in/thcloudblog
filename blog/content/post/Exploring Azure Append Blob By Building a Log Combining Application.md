@@ -1,7 +1,7 @@
 ﻿+++
 author = "Rahul Rai"
 categories = ["azure", "storage"]
-date = "2015-08-17T17:04:47+10:00"
+date = "2015-08-17T00:00:00"
 draft = false
 tags = ["github", "blob", "append blob", "append", "storage", "azure storage", "surveymonkey", "survey monkey", "block", "logging", "log", "azure blob storage", "blob storage"]
 title = "Exploring Azure Append Blob By Building a Log Combining Application"
@@ -36,7 +36,7 @@ Once you have the solution ready, then to make it work, you would need to naviga
 
 The code to produce [block blobs](https://msdn.microsoft.com/en-us/library/azure/ee691964.aspx) of random log files is self explanatory. Next, the following code in **AppendBlobAzureProducer** will start appending block blob content to an [Append Blob](https://msdn.microsoft.com/en-us/library/azure/ee691964.aspx) named “append-blob.log”. If you want, you may extend the sample and choose the log files that you want to combine.
 
-~~~CS 
+```CS
 var appendBlob = container.GetAppendBlobReference("append-blob.log");
 appendBlob.CreateOrReplace();
 
@@ -48,11 +48,11 @@ for (var i = 0; i < 10; i++)
     Console.WriteLine($"Appended blob Log{i}.log");
     Thread.Sleep(TimeSpan.FromSeconds(5));
 }
-~~~
+```
 
 I am making the code sleep for some time so that you can observe the consumer consuming the content of newly generated “append-blob.log” file in parallel to the above operation. As **AppendBlobAzureProducer** keeps appending the log file, **AppendBlobAzureConsumer** keeps using the following code loop to read content from the updated “append-blob.log” file and save the offset position in a variable to mark the position to which it has already processed the log file.
 
-~~~CS 
+```CS
 long streamStart = 0;
 while (true)
 {
@@ -74,7 +74,7 @@ while (true)
 
    Thread.Sleep(TimeSpan.FromSeconds(2));
 }
-~~~
+```
 
 In a nutshell, the above block of code reads the content of blob starting from index zero to the length of the blob. It will then move its offset position by the length of Append Blob and again read the updated [Append Blob](https://msdn.microsoft.com/en-us/library/azure/ee691964.aspx) starting from that location to the length of the blob. Since the blob will keep growing in size, this process will continue until the producer has appended all the log files. Following is a screenshot of the Producer (left) and consumer (right) in action.
 

@@ -1,10 +1,11 @@
 +++
-date = "2016-03-15T18:21:33-07:00"
+date = "2016-03-15T00:00:00"
 draft = false
 title = "Disclaimer"
 slug = "disclaimer"
 type = "page"
 +++
+
 ## Declaration
 
 The views expressed by me on this website do not necessarily reflect the views of my employers and those who link to this website.

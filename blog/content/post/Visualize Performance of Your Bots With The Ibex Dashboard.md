@@ -1,7 +1,7 @@
 ﻿+++
 author = "Rahul Rai"
 categories = ["azure", "bot-framework"]
-date = "2018-02-12T17:04:47+10:00"
+date = "2018-02-12T00:00:00"
 draft = false
 tags = ["bot", "azure", "learning"]
 title = "Visualize Performance of Your Bots With The Ibex Dashboard"
@@ -17,6 +17,7 @@ There are three services supported by the Bot Framework to bake monitoring and m
 3. **[Ibex Dashboard](https://github.com/Azure/ibex-dashboard)**: Using custom data logged in AppInsights, Ibex can provide in-depth information about intent usage, channel usage and, the rate of messages to the administrators. We will discuss how to configure Ibex in this article.
 
 ## Need for Advanced Analytics
+
 In general, after deploying a bot, the stakeholders of the project are interested in knowing the following about the bot:
 
 1. Are the LUIS intents getting adequately utilized?
@@ -28,6 +29,7 @@ To answer these crucial questions, Microsoft built an open source tool called **
 Ibex provides relevant information on intent usage, channel usage, activity, the rate of messages and, sentiment analysis.
 
 ## Configuring The Ibex Dashboard
+
 the following are the two aspects to configuring the dashboard:
 
 1. Configuring the dashboard web application.
@@ -38,28 +40,30 @@ Configuring and deploying the dashboard web application is straightforward, and 
 {{< img src="/Genrate AppInsight API Key.png" alt="Genrate AppInsight API Key" >}}
 
 ## Configuring Your Bot
+
 You'd need to configure your bot to push telemetry data to AppInsights in a format that can be understood by the Ibex dashboard. To do that follow the following steps.
 
 - Install the **BotBuilder.Instrumentation** package. You can read more about this package [here](https://github.com/CatalystCode/botbuilder-instrumentation-cs).
 - Add the following keys to your the `web.config` file of your bot.
 
-~~~xml
+```xml
     <!-- AppInsights InstrumentationKey-->
     <add key="InstrumentationKey" value="AppInsight Instrumentation Key" />
     <add key="InstrumentationShouldOmitUsernameFromTelemetry" value="False"/>
-~~~
+```
+
 The above configuration will enable basic logging from your bot and would not perform any sentiment analysis on the text entered by the users. You can also use the following settings in addition to the previous one to perform sentiment analysis on the user input text.
 
-~~~XML	
+```XML
     <!-- LUIS credentials-->
     <add key="LuisModelId" value="LUIS MODEL ID" />
     <add key="LuisSubscriptionKey" value="LUIS SUBSCRIPTION KEY" />
-    
+
     <!-- Text Analytics data for message sentiment analysis -->
     <add key="TextAnalyticsApiKey" value="TEXT ANALYTICS API KEY" />
     <add key="TextAnalyticsMinLength" value="MIN LENGTH OF TEXT THAT SHOULD BE PROCESSED FOR SENTIMENT ANALYSIS" />
     <add key="CognitiveServiceApiEndpoint" value="https://XXX.api.cognitive.microsoft.com/"/>
-~~~
+```
 
 Note that you would need to provision a [Congnitive Service](https://azure.microsoft.com/en-gb/services/cognitive-services/text-analytics/) in Azure to get the keys and enable sentiment analysis on the input text.
 
@@ -71,28 +75,29 @@ Next, add one of the following lines of code to start automatic telemetry collec
 
 1. If you want to use Cognitive Service and have configured your bot for it.
 
-	~~~CS
-	    public readonly BotFrameworkApplicationInsightsInstrumentation DefaultInstrumentation = DependencyResolver.Current.DefaultInstrumentationWithCognitiveServices;
-	~~~
+   ```CS
+       public readonly BotFrameworkApplicationInsightsInstrumentation DefaultInstrumentation = DependencyResolver.Current.DefaultInstrumentationWithCognitiveServices;
+   ```
 
 2. If you don't want to use Cognitive Services with your bot.
 
-	~~~CS
-		public readonly BotFrameworkApplicationInsightsInstrumentation DefaultInstrumentation = DependencyResolver.Current.DefaultBasicInstrumentation;
-	~~~
+   ```CS
+   	public readonly BotFrameworkApplicationInsightsInstrumentation DefaultInstrumentation = DependencyResolver.Current.DefaultBasicInstrumentation;
+   ```
 
 In my case, I just added the code to Global.asax file at the very start. Being a static member, the member would be initialized at the start of the application.
-~~~CS
+
+```CS
     public class WebApiApplication : HttpApplication
     {
         public static readonly IBotFrameworkInstrumentation DefaultInstrumentation = DependencyResolver.Current.DefaultInstrumentationWithCognitiveServices;
 		...
 	}
-~~~
+```
 
 - Finally, make your `LuisDialog` class inherit the `InstrumentedLuisDialog` class and supply the LUIS model id and LUIS subscription key as the constructor arguments.
 
-~~~CS
+```CS
     public class LuisDialogBase : InstrumentedLuisDialog<object>
     {
         public LuisDialogBase() : base("Model Id", "Subscription Key")
@@ -100,9 +105,10 @@ In my case, I just added the code to Global.asax file at the very start. Being a
         }
 		...
 	}
-~~~
+```
 
 ## Demo
+
 After configuring your bot, you can test the bot locally or deploy it on Azure and carry out conversations with it. Following is a brief demo of how the dashboard looks like after a short period of activity.
 
 {{< youtube jCXM_agMoFM >}}
