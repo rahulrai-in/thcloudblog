@@ -1,7 +1,7 @@
 ﻿+++
 author = "Rahul Rai"
 categories = ["web"]
-date = "2019-05-18T00:00:00"
+date = "2019-05-19T00:00:00"
 draft = false
 tags = ["dotnetcore", "typescript", "graphql", "webdevelopment"]
 title = "Building Applications with GraphQL in ASP.Net Core and TypeScript - Part 2"
