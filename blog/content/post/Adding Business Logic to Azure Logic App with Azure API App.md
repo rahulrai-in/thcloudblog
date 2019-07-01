@@ -1,6 +1,6 @@
 ﻿+++
 author = "Rahul Rai"
-categories = ["azure", "app-service"]
+categories = ["azure", "compute"]
 date = "2015-10-13T00:00:00"
 draft = false
 tags = ["email", "connector", "biztalk", "one drive", "web api", "office 365", "apiapp"]

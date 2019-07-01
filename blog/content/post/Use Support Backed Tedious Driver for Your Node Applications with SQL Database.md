@@ -1,6 +1,6 @@
 ﻿+++
 author = "Rahul Rai"
-categories = ["programming", "app-service"]
+categories = ["programming", "compute"]
 date = "2017-01-03T00:00:00"
 draft = false
 tags = ["nodejs", "azure-sql-database", "webapp", "tedious", "github"]
