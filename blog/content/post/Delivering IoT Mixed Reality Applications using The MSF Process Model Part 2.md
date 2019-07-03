@@ -12,11 +12,11 @@ attribution = "Reviewer: <b><a style='color:#33A6DC;' href='https://weblogs.asp.
 {{% notice %}}
 In this series
 
-1. [Envision and Plan](/post/Delivering-IoT-Mixed-Reality-Applications-using-The-MSF-Process-Model-Envision-and-Plan--Part-1/)
-2. [Develop and Stabilize](/post/Delivering-IoT-Mixed-Reality-Applications-using-The-MSF-Process-Model-Develop-and-Stabilize--Part-2/)
-3. [Develop, Stabilize, and Deploy](/post/Delivering-IoT-Mixed-Reality-Applications-using-The-MSF-Process-Model-Develop-Stabilize-and-Deploy--Part-3/)
+1. [Envision and Plan](/post/Delivering-IoT-Mixed-Reality-Applications-using-The-MSF-Process-Model-Envision-and-Plan-Part-1/)
+2. [Develop and Stabilize](/post/Delivering-IoT-Mixed-Reality-Applications-using-The-MSF-Process-Model-Develop-and-Stabilize-Part-2/)
+3. [Develop, Stabilize, and Deploy](/post/Delivering-IoT-Mixed-Reality-Applications-using-The-MSF-Process-Model-Develop-Stabilize-and-Deploy-Part-3/)
    {{% /notice %}}
-   In the [previous article](/post/Delivering-IoT-Mixed-Reality-Applications-using-The-MSF-Process-Model-Envision-and-Plan--Part-1/), we went through the Envisioning and Planning phases for delivering a Mixed Reality IoT application. In this article, we will start building the components of the architecture that we developed in the previous phase. Since we have a clear objective with all the plans laid out, let's kick off the development phase.
+   In the [previous article](/post/Delivering-IoT-Mixed-Reality-Applications-using-The-MSF-Process-Model-Envision-and-Plan-Part-1/), we went through the Envisioning and Planning phases for delivering a Mixed Reality IoT application. In this article, we will start building the components of the architecture that we developed in the previous phase. Since we have a clear objective with all the plans laid out, let's kick off the development phase.
 
 ## Source Code
 
