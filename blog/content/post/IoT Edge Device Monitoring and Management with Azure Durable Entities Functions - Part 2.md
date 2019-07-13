@@ -1,7 +1,7 @@
 ﻿+++
 author = "Rahul Rai"
 categories = ["azure", "internet-of-things", "compute"]
-date = "2019-07-14T00:00:00"
+date = "2019-07-13T00:00:00"
 tags = ["iot", "azure", "edge", "azure-function"]
 title = "IoT Edge Device Monitoring and Management with Azure Durable Entities Functions - Part 2"
 type = "post"
