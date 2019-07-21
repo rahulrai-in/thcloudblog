@@ -4,7 +4,7 @@ categories = ["devops"]
 date = "2019-07-21T00:00:00"
 draft = false
 tags = ["LaTeX","devops"]
-title = "Continuos TeX Document Production with GitHub Actions"
+title = "Continuous TeX Document Production with GitHub Actions"
 type = "post"
 +++
 
