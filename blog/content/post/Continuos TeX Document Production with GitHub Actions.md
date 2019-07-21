@@ -33,7 +33,7 @@ Although it was just a fun project for me, DevOpsifying your résumé makes sens
 3. If someone (recruiter\client\company) asks you whether the document they have is the latest one, you will only need to ask them one question (keep reading).
 4. If you get to talk about it in an interview, you will stand out! :smile:
 
-I understand that there are alternatives such as CMS, saving content to cloud drives, and so on. However, I prefer this approach any real developer who firmly believes in the [NIH philosophy](https://en.wikipedia.org/wiki/Not_invented_here) will too :wink: (an \* and some fine print here).
+I understand that there are alternatives such as CMS, saving content to cloud drives, and so on. However, I prefer this approach and any real developer who firmly believes in the [NIH philosophy](https://en.wikipedia.org/wiki/Not_invented_here) will too :wink: (an \* and some fine print here).
 
 ## Code
 
