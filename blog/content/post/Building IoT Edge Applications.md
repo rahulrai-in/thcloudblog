@@ -12,7 +12,7 @@ I recently presented a session on building applications with [Azure IoT Edge](ht
 
 ## The Event
 
-Here are a few of the pictures from my session that some awesome folks clicked. You can find other photos of the event [here](https://www.meetup.com/Azure-Sydney-User-Group/events/248907098/). If you are in Sydney, Simon Waight (twitter: [@simonwaight](https://twitter.com/simonwaight)) is the guy who runs the Azure Sydney User Group (twitter: [@azuresydneyug](https://twitter.com/AzureSydneyUG)). You can follow him and the user group channel on Twitter, to be in the loop. If they are feeling generous, sometimes they give out stuff such as XBox in their events (at least they did in the Bootcamp)!
+Here are a few of the pictures from my session that some awesome folks clicked. You can find other photos of the event [here](https://www.meetup.com/Azure-Sydney-User-Group/events/248907098/). If you are in Sydney, Simon Waight (twitter: [@simonwaight](https://twitter.com/simonwaight)) is the guy who runs the Azure Sydney User Group (twitter: [@azuresydneyug](https://twitter.com/AzureSydneyUG)). You can follow him and the user group channel on Twitter, to be in the loop. If they are feeling generous, sometimes they give out stuff such as XBox at their events (at least they did in the Bootcamp)!
 
 {{< img src="/Rahul Speaker Session.jpg" alt="Speaker Session" >}}
 
@@ -20,7 +20,7 @@ Of course, no presentation is complete without a slide deck. You can download th
 
 {{< slideshare src="pw3ZLUqQQCp2qC" >}}
 
-## Building (Re-building) The Demo Application
+## (Re)Building The Demo Application
 
 I wasn't able to cover everything in sufficient detail in the session due to time constraints, so I will go through all the steps that I took to build the application that I demonstrated in the event. I would not be covering what Azure IoT Edge is or what its features are in this post. Feel free to post your comments below if you feel that there is something you can't understand or your feedback in general. Let's start with the scenario that I used for building the application.
 
