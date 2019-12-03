@@ -10,7 +10,7 @@ type = "post"
 
 If you are using Azure DevOps for building and deploying your .NET core applications, then you should consider the following.
 
-1. [Azure Pipelines](https://azure.microsoft.com/en-au/services/devops/) now supports composing both the build and release stages as code. You can now combine your CI and CD pipeline definitions into a single pipeline definition which lives within the same repository as the application code.
+1. [Azure Pipelines](https://azure.microsoft.com/en-au/services/devops/) now supports composing both the build and release stages as code. You can now combine your CI and CD pipeline definitions into a single pipeline definition that lives within the same repository as the application code.
 2. Turn on binary logging in MSBuild so that you receive exhaustive structured logs from the build process. You can visualize these logs using [MSBuild Structured Log Viewer](http://msbuildlog.com/) to inspect the build process in great detail.
 3. Add [Coverlet](https://github.com/tonerdo/coverlet), which is a cross-platform code coverage framework to collect code coverage data, and generate neat code coverage reports with [Report Generator](https://github.com/danielpalme/ReportGenerator).
 
@@ -250,7 +250,7 @@ steps:
     artifactName: Function
 ```
 
-Finally the last step in the pipeline named _deploy_ is responsible for publishing the release artifact to Azure function.
+Finally, the last step in the pipeline named _deploy_ is responsible for publishing the release artifact to Azure function.
 
 ```json
 steps:
