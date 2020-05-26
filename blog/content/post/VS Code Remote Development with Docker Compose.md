@@ -4,7 +4,7 @@ categories = ["programming", "docker"]
 date = "2020-05-26T00:00:00"
 draft = false
 tags = ["vs-code","docker-compose", "docker"]
-title = "VS Code Remote Development with Docker Compose: Developing services in standalone and integrated modes"
+title = "VS Code Remote Development with Docker Compose: Developing services in Standalone and Integrated Modes"
 type = "post"
 +++
 
