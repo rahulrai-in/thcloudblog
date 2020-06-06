@@ -2,7 +2,7 @@
 author = "Rahul Rai"
 categories = ["azure", "app-service"]
 date = "2020-06-06T00:00:00"
-draft = true
+draft = false
 tags = ["webapp", "azure","docker"]
 title = "Using Startup Command to Pass Command Line Arguments to Azure App Service for Linux"
 type = "post"
